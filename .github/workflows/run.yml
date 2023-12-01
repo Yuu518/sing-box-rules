@@ -33,24 +33,24 @@ jobs:
         shell: bash
 
       - name: Checkout the "hidden" branch of this repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: hidden
 
       - name: Checkout Loyalsoldier/domain-list-custom
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Loyalsoldier/domain-list-custom
           path: custom
 
       - name: Checkout v2fly/domain-list-community
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: v2fly/domain-list-community
           path: community
 
       - name: Checkout cokebar/gfwlist2dnsmasq
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: cokebar/gfwlist2dnsmasq
           path: gfwlist2dnsmasq
@@ -172,7 +172,7 @@ jobs:
           go run ./ --datapath=../community/data
 
       - name: Checkout CHIZI-0618/sing-geosite
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: CHIZI-0618/sing-geosite
           path: sing-geosite
@@ -186,7 +186,7 @@ jobs:
           go run -v . geosite.dat geosite.db
 
       - name: Checkout SagerNet/sing-geoip
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: SagerNet/sing-geoip
           path: sing-geoip
