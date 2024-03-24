@@ -65,11 +65,6 @@ jobs:
           go-version: ${{steps.go_latest.outputs.go_latest}}
           cache-dependency-path: ./custom/go.sum
 
-      - name: get sing-box version
-        id: sing_version
-        run: |
-          echo sing_version=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | perl -ne 'print $1 if /"tag_name":\s*"v([^"]+)"/') >> $GITHUB_OUTPUT
-
       - name: Get geoip.dat relative files
         run: |
           wget https://github.com/Yuu518/geoip/raw/release/geoip.dat
