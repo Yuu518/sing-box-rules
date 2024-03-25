@@ -23,8 +23,11 @@ jobs:
           echo "EASYPRIVACY_REJECT_URL=https://easylist-downloads.adblockplus.org/easyprivacy.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://github.com/TG-Twilight/AWAvenue-Ads-Rule/raw/main/Filters/AWAvenue-Ads-Rule-Surge.txt" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list" >> $GITHUB_ENV
-          echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
-          echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
+          echo "CUSTOM_DIRECT1=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
+          echo "CUSTOM_DIRECT2=https://github.com/Yuu518/rules/raw/release/loon/geolocation-!cn@cn.txt" >> $GITHUB_ENV
+          echo "CUSTOM_PROXY1=https://github.com/Yuu518/rules/raw/release/loon/geolocation-!cn.txt" >> $GITHUB_ENV
+          echo "CUSTOM_PROXY2=https://github.com/Yuu518/rules/raw/release/loon/geolocation-cn@!cn.txt" >> $GITHUB_ENV
+          echo "CUSTOM_PROXY_ALL=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_GFWLIST=https://raw.githubusercontent.com/pexcn/daily/gh-pages/gfwlist/gfwlist.txt" >> $GITHUB_ENV
           echo "WIN_SPY=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt" >> $GITHUB_ENV
           echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
@@ -91,7 +94,7 @@ jobs:
           cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' > temp-proxy.txt
           curl -L $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' >> temp-proxy.txt
           curl -L $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' >> temp-proxy.txt
-          curl -L $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-proxy.txt
+          curl -L $CUSTOM_PROXY_ALL | grep -Ev ":@cn" | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-proxy.txt
           curl -L $CUSTOM_GFWLIST | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> temp-proxy.txt
           
       - name: Get and add reject domains into temp-reject.txt file
@@ -104,7 +107,7 @@ jobs:
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
           curl -sSL ${CUSTOM_DIRECT} | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
-          curl -sSL ${CUSTOM_PROXY} | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
+          curl -sSL ${CUSTOM_PROXY_ALL} | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
         run: |
@@ -177,6 +180,12 @@ jobs:
           curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > win-update.txt
           curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-extra
           curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > win-extra.txt
+
+      - name: Create origin "geolocation-!cn", "geolocation-!cn@cn", "geolocation-cn@!cn"
+        run: |
+          curl -sSL $CUSTOM_PROXY1 | perl -ne '/^\s*(DOMAIN|DOMAIN-SUFFIX),\s*([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+)*)/ && print "$2\n"' >> ./community/data/geolocation-!cn
+          curl -sSL $CUSTOM_PROXY2 | perl -ne '/^\s*(DOMAIN|DOMAIN-SUFFIX),\s*([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+)*)/ && print "$2\n"' >> ./community/data/geolocation-cn@!cn
+          curl -sSL $CUSTOM_DIRECT2 | perl -ne '/^\s*(DOMAIN|DOMAIN-SUFFIX),\s*([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+)*)/ && print "$2\n"' >> ./community/data/geolocation-!cn@cn  
 
           echo stripe.com >> ./community/data/openai && echo segment.io >> ./community/data/openai
           
