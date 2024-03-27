@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "ifastnetwork.com",
+        "tradingview.com",
+        "ifasttv.com",
+        "fxcorporate.com",
+        "fundsupermart.com",
+        "ifastcorp.com",
+        "ifastgb.com",
+        "fsmone.com",
+        "wise.com",
+        "mql5.com",
+        "ifastgp.com",
+        "transferwise.com",
+        "ifastcapital.com.my",
+        "ifastfinancial.com.hk",
+        "ifastfinancial.co.in",
+        "ifastgp.com.hk",
+        "fsmone.com.my",
+        "fsmone.com.hk",
+        "ifastps.com.cn"
+      ],
+      "domain_suffix": [
+        ".ifastnetwork.com",
+        ".tradingview.com",
+        ".ifasttv.com",
+        ".fxcorporate.com",
+        ".fundsupermart.com",
+        ".ifastcorp.com",
+        ".ifastgb.com",
+        ".fsmone.com",
+        ".wise.com",
+        ".mql5.com",
+        ".ifastgp.com",
+        ".transferwise.com",
+        ".ifastcapital.com.my",
+        ".ifastfinancial.com.hk",
+        ".ifastfinancial.co.in",
+        ".ifastgp.com.hk",
+        ".fsmone.com.my",
+        ".fsmone.com.hk",
+        ".ifastps.com.cn"
+      ]
+    }
+  ]
+}

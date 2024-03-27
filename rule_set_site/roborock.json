@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": "roborock.com",
+      "domain_suffix": ".roborock.com"
+    }
+  ]
+}

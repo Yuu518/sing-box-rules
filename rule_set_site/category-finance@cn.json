@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": "ifastps.com.cn",
+      "domain_suffix": ".ifastps.com.cn"
+    }
+  ]
+}

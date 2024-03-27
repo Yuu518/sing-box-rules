@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "alphassl.com",
+        "easy-signing.com",
+        "globalsign.cn",
+        "globalsign.com",
+        "globalsigncdn.com",
+        "cdn.globalsigncdn.com.cdn.cloudflare.net",
+        "sslcom.cn",
+        "www.microsoft.com",
+        "dcocsp.cn",
+        "digicert.cn",
+        "crl.pki.goog",
+        "crls.pki.goog",
+        "ocsp.pki.goog",
+        "pki-goog.l.google.com",
+        "oemssl.cn",
+        "oemssl.cn.cdn.cloudflare.net",
+        "sectigochina.com",
+        "sectigochina.com.cdn.cloudflare.net",
+        "trust-provider.cn",
+        "certs-lb.apple.com.akadns.net",
+        "certs.apple.com",
+        "crl-lb.apple.com.akadns.net",
+        "crl.apple.com",
+        "ocsp-lb.apple.com.akadns.net",
+        "ocsp.apple.com",
+        "ocsp2-lb.apple.com.akadns.net",
+        "ocsp2.apple.com",
+        "yahoo.cn",
+        "yahoo.com.cn"
+      ],
+      "domain_suffix": [
+        ".alphassl.com",
+        ".easy-signing.com",
+        ".globalsign.cn",
+        ".globalsign.com",
+        ".globalsigncdn.com",
+        ".sslcom.cn",
+        ".dcocsp.cn",
+        ".digicert.cn",
+        ".oemssl.cn",
+        ".oemssl.cn.cdn.cloudflare.net",
+        ".sectigochina.com",
+        ".sectigochina.com.cdn.cloudflare.net",
+        ".trust-provider.cn",
+        ".yahoo.cn",
+        ".yahoo.com.cn"
+      ]
+    }
+  ]
+}

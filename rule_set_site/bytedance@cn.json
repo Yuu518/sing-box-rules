@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "doubao.com",
+        "coze.cn"
+      ],
+      "domain_suffix": [
+        ".doubao.com",
+        ".coze.cn"
+      ]
+    }
+  ]
+}

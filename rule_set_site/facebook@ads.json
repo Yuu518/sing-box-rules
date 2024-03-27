@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "b-graph.facebook.com",
+        "b-graph-fallback.facebook.com",
+        "connect.facebook.com",
+        "connect.facebook.net",
+        "graph.facebook.com",
+        "graph-fallback.facebook.com",
+        "z-m-graph.facebook.com",
+        "graph.fbpigeon.com",
+        "mqtt-mini.facebook.com"
+      ],
+      "domain_suffix": [
+        ".b-graph.facebook.com",
+        ".b-graph-fallback.facebook.com",
+        ".connect.facebook.com",
+        ".connect.facebook.net",
+        ".graph.facebook.com",
+        ".graph-fallback.facebook.com",
+        ".z-m-graph.facebook.com",
+        ".graph.fbpigeon.com",
+        ".mqtt-mini.facebook.com"
+      ]
+    }
+  ]
+}

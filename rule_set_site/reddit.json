@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "reddit.com",
+        "redditstatic.com",
+        "redditmail.com",
+        "redditmedia.com",
+        "redd.it",
+        "reddit.app.link"
+      ],
+      "domain_suffix": [
+        ".reddit.com",
+        ".redditstatic.com",
+        ".redditmail.com",
+        ".redditmedia.com",
+        ".redd.it",
+        ".reddit.app.link"
+      ]
+    }
+  ]
+}

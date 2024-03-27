@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "accdn.com.cn",
+        "akamai.com",
+        "akcdn.com.cn",
+        "aptdn.net",
+        "janrain.biz",
+        "janrainservices.com",
+        "skycdn.com.cn"
+      ],
+      "domain_suffix": [
+        ".accdn.com.cn",
+        ".akamai.com",
+        ".akcdn.com.cn",
+        ".aptdn.net",
+        ".janrain.biz",
+        ".janrainservices.com",
+        ".skycdn.com.cn"
+      ]
+    }
+  ]
+}

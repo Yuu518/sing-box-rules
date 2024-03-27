@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "clients1.google.com",
+        "pki.google.com",
+        "pki.goog",
+        "crl.pki.goog",
+        "crls.pki.goog",
+        "ocsp.pki.goog",
+        "pki-goog.l.google.com"
+      ],
+      "domain_suffix": ".pki.goog"
+    }
+  ]
+}
