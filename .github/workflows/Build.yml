@@ -195,6 +195,7 @@ jobs:
           curl -sSL ${GEMINI} | perl -ne 'print if /^ *- (DOMAIN,|DOMAIN-SUFFIX,)/' | grep -v "#" | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/gemini
           
           echo stripe.com >> ./community/data/openai && echo segment.io >> ./community/data/openai
+          echo aistudio.google.com >> ./community/data/gemini
           
       - name: Build geosite.dat file
         run: |
