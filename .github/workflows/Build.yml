@@ -174,9 +174,9 @@ jobs:
 
       - name: Create origin "geolocation-!cn", "geolocation-!cn@cn", "geolocation-cn@!cn"
         run: |
-          curl -sSL $CUSTOM_PROXY1 | perl -ne '/^\s*(DOMAIN|DOMAIN-SUFFIX),\s*([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+)*)/ && print "$2\n"' >> ./community/data/geolocation-\!cn
-          curl -sSL $CUSTOM_PROXY2 | perl -ne '/^\s*(DOMAIN|DOMAIN-SUFFIX),\s*([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+)*)/ && print "$2\n"' >> ./community/data/geolocation-cn\@\!cn
-          curl -sSL $CUSTOM_DIRECT2 | perl -ne '/^\s*(DOMAIN|DOMAIN-SUFFIX),\s*([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+)*)/ && print "$2\n"' >> ./community/data/geolocation-\!cn\@cn  
+          curl -sSL $CUSTOM_PROXY1 | perl -ne 'print if /^DOMAIN/' | grep -v "#" | sed 's/DOMAIN-KEYWORD,/keyword:/g' | sed 's/DOMAIN,/full:/g' | sed 's/DOMAIN-SUFFIX,//g' >> ./community/data/geolocation-\!cn
+          curl -sSL $CUSTOM_PROXY2 | perl -ne 'print if /^DOMAIN/' | grep -v "#" | sed 's/DOMAIN-KEYWORD,/keyword:/g' | sed 's/DOMAIN,/full:/g' | sed 's/DOMAIN-SUFFIX,//g' >> ./community/data/geolocation-cn\@\!cn
+          curl -sSL $CUSTOM_DIRECT2 | perl -ne 'print if /^DOMAIN/' | grep -v "#" | sed 's/DOMAIN-KEYWORD,/keyword:/g' | sed 's/DOMAIN,/full:/g' | sed 's/DOMAIN-SUFFIX,//g' >> ./community/data/geolocation-\!cn\@cn  
       
       - name: Add Custome Rule
         run: |
