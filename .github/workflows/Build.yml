@@ -99,7 +99,7 @@ jobs:
       - name: Get and add reject domains file
         run: |
           curl -sSL $CATS_TEAM_ADRULES | perl -ne '/^(domain):(.+)/ && print "$2\n"' >> temp-reject.txt
-          curl -sSL $AWAVENUE_ADS_RULES_URL | perl -ne 'print if /^domain/' | grep -v "#" | sed 's/^domain:/full:/' >> temp-reject.txt
+          curl -sSL $AWAVENUE_ADS_RULES_URL | perl -ne '/^(domain):(.+)/ && print "$2\n"' >> temp-reject.txt
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
