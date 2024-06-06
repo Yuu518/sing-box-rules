@@ -14,3 +14,12 @@
 ## 
 
 用法同 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)  
+
+- 新增类别：
+  - `geosite:geolocation-cn@!cn`
+  - `geosite:geolocation-!cn@cn`
+  - `geosite:gemini`
+  - `geosite:ai-all(生成式AI域名集合)`
+- `geosite:category-ads-all`使用
+  - [Cats-Team/AdRules](https://github.com/Cats-Team/AdRules)
+  - [TG-Twilight/AWAvenue-Ads-Rule](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)
