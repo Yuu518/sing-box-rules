@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "byteoversea.com",
+        "ibytedtos.com",
+        "ibyteimg.com",
+        "coze.com"
+      ],
+      "domain_suffix": [
+        ".byteoversea.com",
+        ".ibytedtos.com",
+        ".ibyteimg.com",
+        ".coze.com"
+      ]
+    }
+  ]
+}
