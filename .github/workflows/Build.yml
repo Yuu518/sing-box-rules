@@ -130,11 +130,11 @@ jobs:
           diff ./direct-list-deleted-sort ./direct-list-with-redundant | awk '/^>/{print $2}' > ./direct-list-without-redundant
           diff ./proxy-list-deleted-sort ./proxy-list-with-redundant | awk '/^>/{print $2}' > ./proxy-list-without-redundant
           
-      - name: Remove domains from "need-to-remove" lists in "hidden" branch
+      - name: Remove domains from "need-to-remove" lists in "src" branch
         run: |
-          diff ./direct-need-to-remove.txt ./direct-list-without-redundant | awk '/^>/{print $2}' > temp-cn.txt
-          diff ./proxy-need-to-remove.txt ./proxy-list-without-redundant | awk '/^>/{print $2}' > temp-geolocation-\!cn-all.txt
-          diff ./reject-need-to-remove.txt ./reject-list-without-redundant | awk '/^>/{print $2}' > temp-category-ads-all.txt
+          python ./removefrom.py -remove ./direct-need-to-remove.txt -from ./direct-list-without-redundant -out ./temp-cn.txt
+          python ./removefrom.py -remove ./proxy-need-to-remove.txt -from ./proxy-list-without-redundant -out ./temp-geolocation-\!cn-all.txt
+          python ./removefrom.py -remove ./reject-need-to-remove.txt -from ./reject-list-without-redundant -out ./temp-category-ads-all.txt
           
       - name: Remove domains end with ".cn" in "temp-geolocation-!cn.txt" and write lists to data directory
         run: |
