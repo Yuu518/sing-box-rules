@@ -20,8 +20,7 @@ jobs:
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "GLOBALMEDIA_URL=https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt" >> $GITHUB_ENV
-          echo "GEMINI=https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Gemini/Gemini.yaml" >> $GITHUB_ENV
-          echo "AI_DOMAIN=https://github.com/Yuu518/Yuu-config/raw/master/mihomo/rules/ai.yaml" >> $GITHUB_ENV
+          echo "AI_DOMAIN=https://raw.githubusercontent.com/Yuu518/Yuu-config/master/domain-list-custom/ai-all" >> $GITHUB_ENV
           echo "TIKTOK_DOMAIN=https://github.com/luestr/ProxyResource/raw/main/Tool/Clash/Rule/TikTok.yaml" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://adrules.top/mosdns_adrules.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt" >> $GITHUB_ENV
@@ -31,9 +30,6 @@ jobs:
           echo "CUSTOM_PROXY2=https://github.com/Yuu518/rules/raw/release/loon/geolocation-cn@!cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY_ALL=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_GFWLIST=https://raw.githubusercontent.com/pexcn/daily/gh-pages/gfwlist/gfwlist.txt" >> $GITHUB_ENV
-          echo "WIN_SPY=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt" >> $GITHUB_ENV
-          echo "WIN_UPDATE=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/update.txt" >> $GITHUB_ENV
-          echo "WIN_EXTRA=https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/extra.txt" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the "src" branch of this repo
@@ -165,12 +161,6 @@ jobs:
           curl -sSL $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "full:$1\n"' > apple-cn.txt
           cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> ./community/data/gfw
           cat ./community/data/gfw | sort --ignore-case -u > gfw.txt
-          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-spy
-          curl -sSL $WIN_SPY | grep "0.0.0.0" | awk '{print $2}' > win-spy.txt
-          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-update
-          curl -sSL $WIN_UPDATE | grep "0.0.0.0" | awk '{print $2}' > win-update.txt
-          curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > ./community/data/win-extra
-          curl -sSL $WIN_EXTRA | grep "0.0.0.0" | awk '{print $2}' > win-extra.txt
 
       - name: Create origin "geolocation-!cn", "geolocation-!cn@cn", "geolocation-cn@!cn"
         run: |
@@ -181,13 +171,11 @@ jobs:
       - name: Add Custome Rule
         run: |
           curl -sSL ${GLOBALMEDIA_URL} | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
-          curl -sSL ${GEMINI} | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/gemini
-          curl -sSL ${AI_DOMAIN} | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/ai-all
           curl -sSL ${TIKTOK_DOMAIN} | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/tiktok
-          
-          echo stripe.com >> ./community/data/openai && echo segment.io >> ./community/data/openai
-          echo "regexp:chatgpt-async-webps-prod-eastus-\d+\.webpubsub\.azure\.com$" >> ./community/data/ai-all
-          echo aistudio.google.com >> ./community/data/gemini
+          curl -sSL ${AI_DOMAIN} | perl -ne 'print if /\S/' | grep -v "#" > ./community/data/ai-all
+
+          echo stripe.com >> ./community/data/openai
+          echo segment.io >> ./community/data/openai
           
       - name: Build geosite.dat file
         run: |
@@ -245,7 +233,7 @@ jobs:
           install -Dp ./sing-geoip/geoip.db.sha256sum ./publish/geoip.db.sha256sum
           install -p {proxy,direct,reject}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {china-list,apple-cn,google-cn,gfw,win-spy,win-update,win-extra}.txt ./publish/
+          install -p {china-list,apple-cn,google-cn,gfw}.txt ./publish/
           install -p hosts ./publish/hosts
           
       - name: Git push assets to "release" branch
