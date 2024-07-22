@@ -20,7 +20,6 @@ jobs:
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "GLOBALMEDIA_URL=https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt" >> $GITHUB_ENV
-          echo "AI_DOMAIN=https://raw.githubusercontent.com/Yuu518/Yuu-config/master/domain-list-custom/ai-all" >> $GITHUB_ENV
           echo "TIKTOK_DOMAIN=https://github.com/luestr/ProxyResource/raw/main/Tool/Clash/Rule/TikTok.yaml" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://adrules.top/mosdns_adrules.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt" >> $GITHUB_ENV
@@ -33,24 +32,30 @@ jobs:
         shell: bash
 
       - name: Checkout the "src" branch of this repo
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
         with:
           ref: src
 
       - name: Checkout Loyalsoldier/domain-list-custom
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
         with:
           repository: Loyalsoldier/domain-list-custom
           path: custom
 
       - name: Checkout v2fly/domain-list-community
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
         with:
           repository: v2fly/domain-list-community
           path: community
 
+      - name: Supplement domain-list-community
+        uses: actions/checkout@v4.1.7
+        with:
+          repository: Yuu518/Yuu-config
+          path: yuuconfig
+
       - name: Checkout cokebar/gfwlist2dnsmasq
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
         with:
           repository: cokebar/gfwlist2dnsmasq
           path: gfwlist2dnsmasq
@@ -61,7 +66,7 @@ jobs:
           echo go_latest=$(curl -s https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep -oE '"version": "[0-9]{1}.[0-9]{1,}(.[0-9]{1,})?"' | head -1 | cut -d':' -f2 | sed 's/ //g; s/"//g') >> $GITHUB_OUTPUT
 
       - name: setup go
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v5.0.2
         with:
           go-version: ${{steps.go_latest.outputs.go_latest}}
           cache-dependency-path: ./custom/go.sum
@@ -172,10 +177,11 @@ jobs:
         run: |
           curl -sSL ${GLOBALMEDIA_URL} | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
           curl -sSL ${TIKTOK_DOMAIN} | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/tiktok
-          curl -sSL ${AI_DOMAIN} | perl -ne 'print if /\S/' | grep -v "#" > ./community/data/ai-all
 
           echo stripe.com >> ./community/data/openai
           echo segment.io >> ./community/data/openai
+
+          cp ./yuuconfig/domain-list-custom/* ./community/data
           
       - name: Build geosite.dat file
         run: |
@@ -183,10 +189,10 @@ jobs:
           go run ./ --datapath=../community/data
           sha256sum publish/geosite.dat > publish/geosite.dat.sha256sum
           
-      - name: Checkout Yuu518/sing-geosite
-        uses: actions/checkout@v4.1.1
+      - name: Checkout sing-geosite
+        uses: actions/checkout@v4.1.7
         with:
-          repository: Yuu518/sing-geosite
+          repository: CHIZI-0618/sing-geosite
           path: sing-geosite
 
       - name: Build geosite.db
@@ -197,7 +203,7 @@ jobs:
           sha256sum geosite.db > geosite.db.sha256sum
           
       - name: Checkout SagerNet/sing-geoip
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
         with:
           repository: SagerNet/sing-geoip
           path: sing-geoip
