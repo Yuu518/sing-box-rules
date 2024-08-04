@@ -15,7 +15,6 @@ jobs:
       - name: Set variables
         run: |
           echo "RELEASE_NAME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
-          echo "SING_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | perl -ne 'print $1 if /"tag_name":\s*"v([^"]+)"/')" >> $GITHUB_ENV
           echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
@@ -53,6 +52,12 @@ jobs:
         with:
           repository: Yuu518/Yuu-config
           path: yuuconfig
+
+      - name: Checkout MetaCubeX/meta-rules-converter
+        uses: actions/checkout@v4.1.7
+        with:
+          repository: MetaCubeX/meta-rules-converter
+          path: convert
 
       - name: Checkout cokebar/gfwlist2dnsmasq
         uses: actions/checkout@v4.1.7
@@ -214,17 +219,16 @@ jobs:
           sed -i 's/Dreamacro\/maxmind-geoip/Yuu518\/geoip/g' main.go
           go run -v .
           sha256sum geoip.db > geoip.db.sha256sum
-
-      - name: Convert geo to sing-rule-set
-        run: |
-          mkdir -p ./rule_set
-          cp ./geoip.dat ./sing-geosite/geosite.db ./convert-sing.sh ./rule_set
-          cd ./rule_set && mkdir -p rule_set_site && mkdir -p rule_set_ip
-          wget https://github.com/SagerNet/sing-box/releases/download/v"${SING_VERSION}"/sing-box-"${SING_VERSION}"-linux-amd64v3.tar.gz -O sing-box.tar.gz && tar zxvf sing-box.tar.gz && mv sing-box-"${SING_VERSION}"-linux-amd64v3/sing-box ./ && rm -r sing-box-"${SING_VERSION}"-linux-amd64v3
-          wget https://github.com/IrineSistiana/mosdns/releases/download/v4.5.3/mosdns-linux-amd64.zip -O mosdns.zip && unzip mosdns.zip
-          chmod 755 mosdns sing-box convert-sing.sh && ./convert-sing.sh
-          rm mosdns* sing-box* convert-sing.sh geoip.dat geosite.db LICENSE README.md config.yaml
           
+      - name: Convert geo to sing-rule-set
+        env:
+          NO_SKIP: true
+        run: |
+          mkdir -p rule_set/rule_set_site && mkdir -p sing-rule/rule_set_ip
+          cd convert
+          go run ./ geosite -f ../custom/publish/geosite.dat -o ../rule_set/rule_set_site -t sing-box
+          go run ./ geoip -f ../geoip.dat -o ../rule_set/rule_set_ip -t sing-box
+
       - name: Move files
         run: |
           install -Dp ./Country.mmdb ./publish/country.mmdb
@@ -268,7 +272,7 @@ jobs:
             git push -f -u origin rule_set
 
       - name: Delete Workflow Runs
-        uses: Mattraks/delete-workflow-runs@v2
+        uses: Mattraks/delete-workflow-runs@v2.0.6
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
