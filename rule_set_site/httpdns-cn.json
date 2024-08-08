@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain_suffix": [
+        "httpdns.pro",
+        "dns.jd.com",
+        "dns.weibo.cn",
+        "httpdns.baidubce.com",
+        "httpsdns.baidu.com",
+        "httpdns.baidu.com",
+        "httpdns.meituan.com",
+        "httpdns.volcengineapi.com",
+        "httpdns-api.aliyuncs.com",
+        "httpdns-sc.aliyuncs.com",
+        "httpdns.alicdn.com",
+        "httpdns.yunxindns.com",
+        "httpdns.bilivideo.com",
+        "union-httpdns.gslb.yy.com",
+        "httpdns.c.cdnhwc2.com",
+        "httpdns.music.163.com",
+        "httpdns.n.netease.com",
+        "httpdns.kg.qq.com",
+        "httpdns.push.oppomobile.com",
+        "httpdns-v6.gslb.yy.com",
+        "yyapp-httpdns.gslb.yy.com",
+        "aedns.weixin.qq.com",
+        "dns.weixin.qq.com",
+        "dns.weixin.qq.com.cn",
+        "lofter.httpdns.c.163.com",
+        "music.httpdns.c.163.com"
+      ]
+    }
+  ]
+}
