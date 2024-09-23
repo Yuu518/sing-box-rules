@@ -15,6 +15,7 @@ jobs:
       - name: Set variables
         run: |
           echo "RELEASE_NAME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
+          echo "SING_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | perl -ne 'if(/"tag_name":\s*"v([0-9a-zA-Z\.-]+)"/){ print "$1\n"; last }')" >> $GITHUB_ENV
           echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
@@ -22,6 +23,8 @@ jobs:
           echo "TIKTOK_DOMAIN=https://github.com/luestr/ProxyResource/raw/main/Tool/Clash/Rule/TikTok.yaml" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-AdClose.txt" >> $GITHUB_ENV
+          echo "CATS_TEAM_ADRULES_ADGUARD=https://adrules.top/dns.txt" >> $GITHUB_ENV
+          echo "AWAVENUE_ADS_RULES_URL_ADGUARD=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT1=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT2=https://github.com/Yuu518/rules/raw/release/loon/geolocation-!cn@cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY1=https://github.com/Yuu518/rules/raw/release/loon/geolocation-!cn.txt" >> $GITHUB_ENV
@@ -106,6 +109,8 @@ jobs:
         run: |
           curl -sSL $CATS_TEAM_ADRULES | sed 's/domain://g' >> temp-reject.txt
           curl -sSL $AWAVENUE_ADS_RULES_URL | sed '1,9d' | sed '665,679s/^/regexp:/' | sed '665,679s/$/$/' >> temp-reject.txt
+          curl -sSL $CATS_TEAM_ADRULES_ADGUARD | sed '1,8d' >> temp-reject-adguard.txt
+          curl -sSL $AWAVENUE_ADS_RULES_URL_ADGUARD | sed '1,9d' >> temp-reject-adguard.txt
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
@@ -123,6 +128,7 @@ jobs:
           cat temp-proxy.txt | sort --ignore-case -u > proxy-list-with-redundant
           cat temp-direct.txt | sort --ignore-case -u > direct-list-with-redundant
           cat temp-reject.txt | sort --ignore-case -u > reject-list-without-redundant
+          cat temp-reject-adguard.txt | sort --ignore-case -u > reject-list-without-redundant-adguard
           
       - name: Remove redundant domains
         run: |
@@ -141,6 +147,7 @@ jobs:
           python ./removefrom.py -remove ./direct-need-to-remove.txt -from ./direct-list-without-redundant -out ./temp-cn.txt
           python ./removefrom.py -remove ./proxy-need-to-remove.txt -from ./proxy-list-without-redundant -out ./temp-geolocation-\!cn-all.txt
           python ./removefrom.py -remove ./reject-need-to-remove.txt -from ./reject-list-without-redundant -out ./temp-category-ads-all.txt
+          python ./removefrom.py -remove ./reject-need-to-remove-adguard.txt -from ./reject-list-without-redundant-adguard -out ./temp-category-ads-all-adguard.txt
           
       - name: Remove domains end with ".cn" in "temp-geolocation-!cn.txt" and write lists to data directory
         run: |
@@ -150,7 +157,7 @@ jobs:
           cat temp-geolocation-\!cn-all.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > proxy-tld-list.txt
           cat temp-category-ads-all.txt > ./community/data/category-ads-all
           cat temp-category-ads-all.txt | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > reject-tld-list.txt
-          
+          cat temp-category-ads-all-adguard.txt > reject-list-adguard.txt
           
       - name: Add `full`, `regexp` and `keyword` type of rules back into "cn", "geolocation-!cn-all" and "category-ads-all" list
         run: |
@@ -185,6 +192,7 @@ jobs:
 
           echo stripe.com >> ./community/data/openai
           echo segment.io >> ./community/data/openai
+          echo c.mi.com >> ./community/data/geolocation-cn\@\!cn
 
           cp ./yuuconfig/domain-list-custom/* ./community/data
           
@@ -229,6 +237,17 @@ jobs:
           go run ./ geosite -f ../custom/publish/geosite.dat -o ../rule_set/rule_set_site -t sing-box
           go run ./ geoip -f ../geoip.dat -o ../rule_set/rule_set_ip -t sing-box
 
+      - name: Add AdGuard DNS Filter
+        run: |
+          mkdir -p ./adguard
+          cd ./adguard
+          wget https://github.com/SagerNet/sing-box/releases/download/v"${SING_VERSION}"/sing-box-"${SING_VERSION}"-linux-amd64.tar.gz -O sing-box.tar.gz &&
+          tar zxvf sing-box.tar.gz &&
+          mv sing-box-"${SING_VERSION}"-linux-amd64/sing-box ./
+          chmod 755 sing-box
+          ./sing-box rule-set convert -t adguard --output category-ads-all-adguard.srs ../reject-list-adguard.txt
+          mv category-ads-all-adguard.srs ../rule_set/rule_set_site
+
       - name: Move files
         run: |
           install -Dp ./Country.mmdb ./publish/country.mmdb
@@ -245,6 +264,7 @@ jobs:
           install -p {proxy,direct,reject}-list.txt ./publish/
           install -p {china-list,apple-cn,google-cn,gfw}.txt ./publish/
           install -p hosts ./publish/hosts
+          install -p reject-list-adguard.txt ./publish/
           
       - name: Git push assets to "release" branch
         run: |
