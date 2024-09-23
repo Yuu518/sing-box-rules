@@ -20,8 +20,8 @@ jobs:
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "GLOBALMEDIA_URL=https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt" >> $GITHUB_ENV
           echo "TIKTOK_DOMAIN=https://github.com/luestr/ProxyResource/raw/main/Tool/Clash/Rule/TikTok.yaml" >> $GITHUB_ENV
-          echo "CATS_TEAM_ADRULES=https://adrules.top/mosdns_adrules.txt" >> $GITHUB_ENV
-          echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt" >> $GITHUB_ENV
+          echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt" >> $GITHUB_ENV
+          echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-AdClose.txt" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT1=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT2=https://github.com/Yuu518/rules/raw/release/loon/geolocation-!cn@cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY1=https://github.com/Yuu518/rules/raw/release/loon/geolocation-!cn.txt" >> $GITHUB_ENV
@@ -92,7 +92,7 @@ jobs:
       - name: Get and add direct domains into temp-direct.txt file
         run: |
           curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > temp-direct.txt
-          curl -sSL ${CUSTOM_DIRECT1} | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
+          curl -sSL $CUSTOM_DIRECT1 | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
           
       - name: Get and add proxy domains into temp-proxy.txt file
         run: |
@@ -104,13 +104,13 @@ jobs:
           
       - name: Get and add reject domains file
         run: |
-          curl -sSL $CATS_TEAM_ADRULES | perl -ne '/^(domain):(.+)/ && print "$2\n"' >> temp-reject.txt
-          curl -sSL $AWAVENUE_ADS_RULES_URL | perl -ne '/^(domain):(.+)/ && print "$2\n"' >> temp-reject.txt
+          curl -sSL $CATS_TEAM_ADRULES | sed 's/domain://g' >> temp-reject.txt
+          curl -sSL $AWAVENUE_ADS_RULES_URL | sed '1,9d' | sed '665,679s/^/regexp:/' | sed '665,679s/$/$/' >> temp-reject.txt
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
-          curl -sSL ${CUSTOM_DIRECT1} | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
-          curl -sSL ${CUSTOM_PROXY_ALL} | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
+          curl -sSL $CUSTOM_DIRECT1 | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
+          curl -sSL $CUSTOM_PROXY_ALL | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
         run: |
@@ -148,7 +148,7 @@ jobs:
           cat temp-cn.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > direct-tld-list.txt
           cat temp-geolocation-\!cn-all.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' | perl -ne 'print if not /\.cn$/' > ./community/data/geolocation-\!cn-all
           cat temp-geolocation-\!cn-all.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > proxy-tld-list.txt
-          cat temp-category-ads-all.txt | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' > ./community/data/category-ads-all
+          cat temp-category-ads-all.txt > ./community/data/category-ads-all
           cat temp-category-ads-all.txt | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > reject-tld-list.txt
           
           
@@ -158,7 +158,7 @@ jobs:
           [ -f "proxy-reserve.txt" ] && cat proxy-reserve.txt >> ./community/data/geolocation-\!cn-all
           cp ./community/data/cn direct-list.txt
           cp ./community/data/geolocation-\!cn-all proxy-list.txt
-          cp ./community/data/category-ads-all reject-list.txt
+          cat ./community/data/category-ads-all | sed '/^regexp:/d' > reject-list.txt
           awk '{print "0.0.0.0 " $0}' reject-list.txt > hosts
           
       - name: Create `china-list`、`google-cn`、`apple-cn`、`gfw` lists
@@ -180,8 +180,8 @@ jobs:
       
       - name: Add Custome Rule
         run: |
-          curl -sSL ${GLOBALMEDIA_URL} | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
-          curl -sSL ${TIKTOK_DOMAIN} | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/tiktok
+          curl -sSL $GLOBALMEDIA_URL | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
+          curl -sSL $TIKTOK_DOMAIN | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/tiktok
 
           echo stripe.com >> ./community/data/openai
           echo segment.io >> ./community/data/openai
