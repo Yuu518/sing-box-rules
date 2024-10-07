@@ -19,6 +19,7 @@
   - `geosite:geolocation-cn@!cn`
   - `geosite:geolocation-!cn@cn`
   - `geosite:ai-all(生成式AI域名集合)`
+  - `geosite:pcdn-cn`
 - `geosite:category-ads-all`使用
   - [Cats-Team/AdRules](https://github.com/Cats-Team/AdRules)
   - [TG-Twilight/AWAvenue-Ads-Rule](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)
