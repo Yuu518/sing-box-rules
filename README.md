@@ -18,7 +18,7 @@
 - 新增类别：
   - `geosite:geolocation-cn@!cn`
   - `geosite:geolocation-!cn@cn`
-  - `geosite:ai-all(生成式AI域名集合)`
+  - `geosite:category-ai-chat-!cn(生成式AI域名集合)`
   - `geosite:pcdn-cn`
 - `geosite:category-ads-all`使用
   - [Cats-Team/AdRules](https://github.com/Cats-Team/AdRules)
