@@ -20,7 +20,6 @@ jobs:
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "GLOBALMEDIA_URL=https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt" >> $GITHUB_ENV
-          echo "TIKTOK_DOMAIN=https://github.com/luestr/ProxyResource/raw/main/Tool/Clash/Rule/TikTok.yaml" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-AdClose.txt" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES_ADGUARD=https://adrules.top/dns.txt" >> $GITHUB_ENV
@@ -188,7 +187,6 @@ jobs:
       - name: Add Custome Rule
         run: |
           curl -sSL $GLOBALMEDIA_URL | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
-          curl -sSL $TIKTOK_DOMAIN | perl -ne 'print if /^ *- DOMAIN/' | grep -v "#" | sed 's/  - DOMAIN-KEYWORD,/keyword:/g' | sed 's/  - DOMAIN,/full:/g' | sed 's/  - DOMAIN-SUFFIX,//g' > ./community/data/tiktok
 
           echo stripe.com >> ./community/data/openai
           echo segment.io >> ./community/data/openai
