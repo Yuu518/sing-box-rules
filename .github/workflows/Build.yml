@@ -188,8 +188,6 @@ jobs:
         run: |
           curl -sSL $GLOBALMEDIA_URL | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
 
-          echo stripe.com >> ./community/data/openai
-          echo segment.io >> ./community/data/openai
           echo c.mi.com >> ./community/data/geolocation-cn\@\!cn
 
           cp ./yuuconfig/domain-list-custom/* ./community/data
