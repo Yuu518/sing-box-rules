@@ -190,7 +190,7 @@ jobs:
 
           echo c.mi.com >> ./community/data/geolocation-cn\@\!cn
 
-          cp ./yuuconfig/domain-list-custom/* ./community/data
+          cp -f ./yuuconfig/domain-list-custom/* ./community/data
           
       - name: Build geosite.dat file
         run: |
