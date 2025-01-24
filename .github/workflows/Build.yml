@@ -242,7 +242,8 @@ jobs:
           mv sing-box-"${SING_VERSION}"-linux-amd64/sing-box ./
           chmod 755 sing-box
           ./sing-box rule-set convert -t adguard --output category-ads-all-adguard.srs ../reject-list-adguard.txt
-          mv category-ads-all-adguard.srs ../rule_set/rule_set_site
+          ./sing-box rule-set convert -t adguard ../yuuconfig/adguard-filters-custom/*.txt
+          mv *.srs ../rule_set/rule_set_site
 
       - name: Move files
         run: |
@@ -261,6 +262,7 @@ jobs:
           install -p {china-list,apple-cn,google-cn,gfw}.txt ./publish/
           install -p hosts ./publish/hosts
           install -p reject-list-adguard.txt ./publish/
+          install -p ./yuuconfig/adguard-filters-custom/*.txt ./publish/
           
       - name: Git push assets to "release" branch
         run: |
