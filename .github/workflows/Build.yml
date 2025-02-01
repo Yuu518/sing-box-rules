@@ -198,32 +198,6 @@ jobs:
           go run ./ --datapath=../community/data
           sha256sum publish/geosite.dat > publish/geosite.dat.sha256sum
           
-      - name: Checkout sing-geosite
-        uses: actions/checkout@v4.1.7
-        with:
-          repository: CHIZI-0618/sing-geosite
-          path: sing-geosite
-
-      - name: Build geosite.db
-        run: |
-          cd sing-geosite || exit 1
-          cp ../custom/publish/geosite.dat ./
-          go run -v . geosite.dat geosite.db singbox_rule_set
-          sha256sum geosite.db > geosite.db.sha256sum
-          
-      - name: Checkout SagerNet/sing-geoip
-        uses: actions/checkout@v4.1.7
-        with:
-          repository: SagerNet/sing-geoip
-          path: sing-geoip
-
-      - name: Build geoip.db
-        run: |
-          cd sing-geoip || exit 1
-          sed -i 's/Dreamacro\/maxmind-geoip/Yuu518\/geoip/g' main.go
-          go run -v .
-          sha256sum geoip.db > geoip.db.sha256sum
-          
       - name: Convert geo to sing-rule-set
         env:
           NO_SKIP: true
@@ -254,10 +228,6 @@ jobs:
           install -Dp ./geoip.dat.sha256sum ./publish/geoip.dat.sha256sum
           install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
           install -Dp ./custom/publish/geosite.dat.sha256sum ./publish/geosite.dat.sha256sum
-          install -Dp ./sing-geosite/geosite.db ./publish/geosite.db
-          install -Dp ./sing-geosite/geosite.db.sha256sum ./publish/geosite.db.sha256sum
-          install -Dp ./sing-geoip/geoip.db ./publish/geoip.db
-          install -Dp ./sing-geoip/geoip.db.sha256sum ./publish/geoip.db.sha256sum
           install -p {proxy,direct,reject}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
           install -p {china-list,apple-cn,google-cn,gfw}.txt ./publish/
