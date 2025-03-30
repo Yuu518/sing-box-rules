@@ -55,10 +55,10 @@ jobs:
           repository: Yuu518/Yuu-config
           path: yuuconfig
 
-      - name: Checkout MetaCubeX/meta-rules-converter
+      - name: Checkout converter
         uses: actions/checkout@v4.1.7
         with:
-          repository: MetaCubeX/meta-rules-converter
+          repository: Yuu518/meta-rules-converter
           path: convert
 
       - name: Checkout cokebar/gfwlist2dnsmasq
