@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "cueme-api.quark.cn",
+        "ai.zhaomi.cn"
+      ],
+      "domain_suffix": [
+        "baichuan-ai.com",
+        "cueme.cn",
+        "deepseek.com",
+        "namiso.com",
+        "qwen.ai",
+        "qwenlm.ai",
+        "n.cn",
+        "tiangong.cn",
+        "doubao.com",
+        "marscode.cn",
+        "chatglm.cn",
+        "zhipuai.cn",
+        "rwkv.com",
+        "moonshot.cn",
+        "rwkv.cn",
+        "minimaxi.com",
+        "xingyeai.com",
+        "liblib.art",
+        "hailuoai.com",
+        "botvip.cn",
+        "hunyuan.tencent.com",
+        "xinghuo.xfyun.cn",
+        "yiyan.baidu.com",
+        "qianwen.aliyun.com",
+        "tongyi.aliyun.com"
+      ]
+    }
+  ]
+}
