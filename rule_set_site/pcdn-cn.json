@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "bsccdn.net",
+        "xycdn.com",
+        "uhabo.com",
+        "kuiniuca.com",
+        "szbdyd.com",
+        "saxysec.com",
+        "onethingpcs.com",
+        "pkoplink.com",
+        "p2plive-ali.douyucdn.cn",
+        "stun.douyucdn.cn",
+        "p2pchunk-hw.douyucdn.cn",
+        "p2pchunk-table.douyucdn.cn",
+        "p2pchunk-ws.douyucdn.cn",
+        "p2perrorlog.douyucdn.cn",
+        "p2p.huya.com",
+        "p2plive-ws.douyucdn.cn",
+        "p2plog.douyucdn.cn",
+        "p2ptun.qq.com",
+        "dyp2p-ali.douyucdn.cn",
+        "dyp2p-hw.douyucdn.cn",
+        "p2pvod-ws.douyucdn.cn",
+        "pcdn.yximgs.com",
+        "p2p-ali.douyucdn.cn",
+        "mcdn.bilivideo.cn",
+        "p2p.qq.com",
+        "stun.hitv.com",
+        "stun1.douyucdn.cn",
+        "mcdn.bilivideo.com",
+        "p2pupgrade.gamedl.qq.com",
+        "p2pupdate.gamedl.qq.com"
+      ]
+    }
+  ]
+}
