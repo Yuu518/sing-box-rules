@@ -15,8 +15,6 @@
 用法同 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)  
 
 - 新增类别：
-  - `geosite:geolocation-cn@!cn`
-  - `geosite:geolocation-!cn@cn`
   - `geosite:pcdn-cn`
 - `geosite:category-ads-all`使用
   - [Cats-Team/AdRules](https://github.com/Cats-Team/AdRules)
