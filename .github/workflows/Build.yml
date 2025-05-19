@@ -208,8 +208,6 @@ jobs:
 
       - name: Move files
         run: |
-          install -Dp ./Country.mmdb ./publish/country.mmdb
-          install -Dp ./Country.mmdb.sha256sum ./publish/country.mmdb.sha256sum
           install -Dp ./geoip.dat ./publish/geoip.dat
           install -Dp ./geoip.dat.sha256sum ./publish/geoip.dat.sha256sum
           install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
