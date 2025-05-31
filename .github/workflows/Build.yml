@@ -70,7 +70,7 @@ jobs:
           echo go_latest=$(curl -s https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep -oE '"version": "[0-9]{1}.[0-9]{1,}(.[0-9]{1,})?"' | head -1 | cut -d':' -f2 | sed 's/ //g; s/"//g') >> $GITHUB_OUTPUT
 
       - name: setup go
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5.5.0
         with:
           go-version: ${{steps.go_latest.outputs.go_latest}}
           cache-dependency-path: ./custom/go.sum
