@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "myanonamouse.net",
+        "nebulance.io",
+        "torrentleech.org",
+        "skyey2.com",
+        "skyeysnow.com",
+        "m-team.cc",
+        "m-team.io",
+        "dmhy.best",
+        "dmhy.org"
+      ]
+    }
+  ]
+}
