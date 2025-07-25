@@ -177,6 +177,8 @@ jobs:
         run: |
           curl -sSL $GLOBALMEDIA_URL | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
           cp -f ./yuuconfig/domain-list-custom/* ./community/data
+
+          echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
           
       - name: Build geosite.dat file
         run: |
