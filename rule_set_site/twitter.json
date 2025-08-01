@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "twtrdns.net",
+        "tweetdeck.com",
+        "periscope.tv",
+        "pscp.tv",
+        "t.co",
+        "tellapart.com",
+        "twitter.jp",
+        "twimg.com",
+        "twitpic.com",
+        "twitter.biz",
+        "cms-twdigitalassets.com",
+        "twitter.com",
+        "twitteroauth.com",
+        "twittercommunity.com",
+        "twitterflightschool.com",
+        "twitterinc.com",
+        "x.com",
+        "twitterstat.us",
+        "ads-twitter.com",
+        "twttr.com",
+        "twttr.net",
+        "twvid.com",
+        "vine.co",
+        "twitter.map.fastly.net"
+      ]
+    }
+  ]
+}
