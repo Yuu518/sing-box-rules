@@ -19,7 +19,6 @@ jobs:
           echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
-          echo "GLOBALMEDIA_URL=https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.txt" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES_ADGUARD=https://adrules.top/dns.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt" >> $GITHUB_ENV
@@ -175,10 +174,12 @@ jobs:
       
       - name: Add Custome Rule
         run: |
-          curl -sSL $GLOBALMEDIA_URL | sed '/^\s*#/d' | sed '/^[^\.]/ s/^/full:/' |  sed 's/^\.\([^.]*\)/\1/' > ./community/data/globalmedia
           cp -f ./yuuconfig/domain-list-custom/* ./community/data
 
           echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
+          echo "t-mobile.com" >> ./community/data/geolocation-!cn
+          echo "ultramobile.com" >> ./community/data/geolocation-!cn
+          
           
       - name: Build geosite.dat file
         run: |
