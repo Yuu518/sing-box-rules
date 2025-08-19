@@ -104,6 +104,7 @@ jobs:
           curl -sSL $AWAVENUE_ADS_RULES_URL | sed 's/domain://g' >> temp-reject.txt
           curl -sSL $CATS_TEAM_ADRULES_ADGUARD | sed '1,8d' >> temp-reject-adguard.txt
           curl -sSL $AWAVENUE_ADS_RULES_URL_ADGUARD | sed '1,9d' >> temp-reject-adguard.txt
+          curl -sSL $AWAVENUE_ADS_RULES_URL_ADGUARD | sed '1,9d' > awavenue-ads-adguard.txt
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
@@ -205,6 +206,7 @@ jobs:
           mv sing-box-"${SING_VERSION}"-linux-amd64/sing-box ./
           chmod 755 sing-box
           ./sing-box rule-set convert -t adguard --output category-ads-all-adguard.srs ../reject-list-adguard.txt
+          ./sing-box rule-set convert -t adguard --output awavenue-ads.srs ../awavenue-ads-adguard.txt
           ./sing-box rule-set convert -t adguard ../yuuconfig/adguard-filters-custom/*.txt
           mv *.srs ../rule_set/rule_set_site
           mv ../yuuconfig/adguard-filters-custom/*.srs ../rule_set/rule_set_site
@@ -220,6 +222,7 @@ jobs:
           install -p {china-list,apple-cn,google-cn,gfw}.txt ./publish/
           install -p hosts ./publish/hosts
           install -p reject-list-adguard.txt ./publish/
+          install -p awavenue-ads-adguard.txt ./publish/
           install -p ./yuuconfig/adguard-filters-custom/*.txt ./publish/
           
       - name: Git push assets to "release" branch
