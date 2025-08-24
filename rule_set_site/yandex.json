@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "yandex",
+        "yandex.pl",
+        "yandex.st",
+        "yandex.kg",
+        "ya.ru",
+        "yandex-bank.net",
+        "yastatic.net",
+        "yandex.aero",
+        "yandex.az",
+        "yandex.by",
+        "yandexwebcache.org",
+        "yandex.com",
+        "yandexcom.net",
+        "yandexcloud.net",
+        "yandexadexchange.net",
+        "yandex.uz",
+        "yandex.ua",
+        "yandex.de",
+        "yandex.ee",
+        "yandex.eu",
+        "yandex.fi",
+        "dzen.ru",
+        "yandex.jobs",
+        "rostaxi.org",
+        "yandex.kz",
+        "yandex.lt",
+        "yandex.lv",
+        "yandex.md",
+        "yandex.net",
+        "yandex.org",
+        "xn--d1acpjx3f.xn--p1ai",
+        "yandex.ru",
+        "yandex.fr",
+        "yandex.sx",
+        "yandex.tj",
+        "yandex.tm",
+        "yandex.com.ua",
+        "yandex.com.tr",
+        "yandex.com.ru",
+        "yandex.com.ge",
+        "yandex.com.am",
+        "yandex.co.il",
+        "yandex-images.clstorage.net"
+      ]
+    }
+  ]
+}

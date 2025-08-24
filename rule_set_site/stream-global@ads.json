@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": "disney.my.sentry.io",
+      "domain_suffix": [
+        "ad.games.dmm.com",
+        "bluekai.com",
+        "fout.jp",
+        "gmossp-sp.jp",
+        "i-mobile.co.jp",
+        "im-apps.net",
+        "impact-ad.jp",
+        "ladsp.com",
+        "microad.co.jp",
+        "microad.jp",
+        "socdm.com",
+        "a.ckm.iqiyi.com",
+        "ad.m.iqiyi.com",
+        "afp.iqiyi.com",
+        "c.uaa.iqiyi.com",
+        "cloudpush.iqiyi.com",
+        "cm.passport.iqiyi.com",
+        "cupid.iqiyi.com",
+        "emoticon.sns.iqiyi.com",
+        "gamecenter.iqiyi.com",
+        "hotchat-im.iqiyi.com",
+        "ifacelog.iqiyi.com",
+        "mbdlog.iqiyi.com",
+        "msg.71.am",
+        "msg.video.qiyi.com",
+        "msg2.video.qiyi.com",
+        "policy.video.iqiyi.com",
+        "yuedu.iqiyi.com"
+      ]
+    }
+  ]
+}

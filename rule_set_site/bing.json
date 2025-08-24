@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "location.microsoft.com",
+        "bj1.api.bing.com",
+        "emoi-cncdn.bing.com"
+      ],
+      "domain_suffix": [
+        "bing",
+        "dictate.ms",
+        "office365tw.com",
+        "bing123.com",
+        "bingads.com",
+        "bingagencyawards.com",
+        "bingapis.com",
+        "bingapistatistics.com",
+        "bingparachute.com",
+        "bingsandbox.com",
+        "bingvisualsearch.com",
+        "bingworld.com",
+        "flipwithsurface.com",
+        "bing.net",
+        "sprinklesapp.com",
+        "bluehatnights.com",
+        "masalladeloslimites.com",
+        "microsoft-give.com",
+        "microsoftcloudsummit.com",
+        "microsoftdiplomados.com",
+        "microsoftlatamholiday.com",
+        "microsoftmxfilantropia.com",
+        "microsoftpartnersolutions.com",
+        "msunlimitedcloudsummit.com",
+        "office365love.com",
+        "bing.com",
+        "renovacionoffice.com",
+        "copilot.microsoft.com",
+        "bing.com.cn",
+        "cn.bing.com",
+        "cn.bing.net",
+        "cn.mm.bing.net",
+        "ditu.live.com",
+        "r.bing.com",
+        "th.bing.com"
+      ]
+    }
+  ]
+}
