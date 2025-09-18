@@ -20,8 +20,8 @@
 - 域名类：
   - `category-ads-all`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/category-ads-all.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/category-ads-all.json)
   - `stream-global`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/stream-global.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/stream-global.json)
-  - `youtube`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/youtube.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/youtube,json)
-  - `netflix`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/netflix.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/netflix,json)
+  - `youtube`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/youtube.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/youtube.json)
+  - `netflix`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/netflix.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/netflix.json)
   - `ai`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/category-ai-!cn.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/category-ai-!cn.json)
   - `google`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/google.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/google.json)
   - `geolocation-!cn`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/geolocation-!cn.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/geolocation-!cn.json)
