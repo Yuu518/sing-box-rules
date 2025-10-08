@@ -33,6 +33,14 @@ jobs:
         with:
           ref: src
 
+      - name: Checkout Yuu518/rules
+        uses: actions/checkout@v4.1.7
+        with:
+          repository: Yuu518/rules
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: yuurules
+          ref: data
+
       - name: Checkout Loyalsoldier/domain-list-custom
         uses: actions/checkout@v4.1.7
         with:
@@ -44,12 +52,6 @@ jobs:
         with:
           repository: v2fly/domain-list-community
           path: community
-
-      - name: Supplement domain-list-community
-        uses: actions/checkout@v4.1.7
-        with:
-          repository: Yuu518/Yuu-config
-          path: yuuconfig
 
       - name: Checkout converter
         uses: actions/checkout@v4.1.7
@@ -175,7 +177,7 @@ jobs:
       
       - name: Add Custome Rule
         run: |
-          cp -f ./yuuconfig/domain-list-custom/* ./community/data
+          cp -f ./yuurules/* ./community/data
 
           echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
           echo "t-mobile.com" >> ./community/data/geolocation-!cn
@@ -207,9 +209,7 @@ jobs:
           chmod 755 sing-box
           ./sing-box rule-set convert -t adguard --output category-ads-all-adguard.srs ../reject-list-adguard.txt
           ./sing-box rule-set convert -t adguard --output awavenue-ads.srs ../awavenue-ads-adguard.txt
-          ./sing-box rule-set convert -t adguard ../yuuconfig/adguard-filters-custom/*.txt
           mv *.srs ../rule_set/rule_set_site
-          mv ../yuuconfig/adguard-filters-custom/*.srs ../rule_set/rule_set_site
 
       - name: Move files
         run: |
@@ -223,7 +223,6 @@ jobs:
           install -p hosts ./publish/hosts
           install -p reject-list-adguard.txt ./publish/
           install -p awavenue-ads-adguard.txt ./publish/
-          install -p ./yuuconfig/adguard-filters-custom/*.txt ./publish/
           
       - name: Git push assets to "release" branch
         run: |
