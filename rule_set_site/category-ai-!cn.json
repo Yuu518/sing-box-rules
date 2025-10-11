@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "openaiapi-site.azureedge.net",
+        "openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net",
+        "openaicomproductionae4b.blob.core.windows.net",
+        "production-openaicom-storage.azureedge.net",
+        "api.google.com",
+        "ai.google.dev",
+        "alkalicore-pa.clients6.google.com",
+        "alkalimakersuite-pa.clients6.google.com",
+        "servd-anthropic-website.b-cdn.net",
+        "pplx-res.cloudinary.com"
+      ],
+      "domain_suffix": [
+        "grok.com",
+        "deepmind.com",
+        "clipdrop.co",
+        "chatgpt.com",
+        "oaistatic.com",
+        "oaiusercontent.com",
+        "openai.com",
+        "sora.com",
+        "coderabbit.ai",
+        "deepmind.google",
+        "jasper.ai",
+        "anthropic.com",
+        "trae.ai",
+        "x.ai",
+        "mistral.ai",
+        "pplx.ai",
+        "perplexity.ai",
+        "meta.ai",
+        "grazie.ai",
+        "claudeusercontent.com",
+        "claude.ai",
+        "notebooklm.google",
+        "copilot.microsoft.com",
+        "bard.google.com",
+        "makersuite.google.com",
+        "aistudio.google.com",
+        "aida.googleapis.com",
+        "openaicom.imgix.net",
+        "imagine.meta.com",
+        "proactivebackend-pa.googleapis.com",
+        "generativelanguage.googleapis.com",
+        "geller-pa.googleapis.com",
+        "gemini.google.com",
+        "notebooklm.google.com",
+        "api.githubcopilot.com",
+        "copilot-proxy.githubusercontent.com",
+        "coderabbit.gallery.vsassets.io",
+        "grazie.aws.intellij.net",
+        "o33249.ingest.sentry.io",
+        "openai.com.cdn.cloudflare.net"
+      ],
+      "domain_regex": "^chatgpt-async-webps-prod-\\S+-\\d+\\.webpubsub\\.azure\\.com$"
+    }
+  ]
+}
