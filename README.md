@@ -8,7 +8,7 @@
 
 - 新增类别：
   - `geosite:pcdn-cn`
-  - `stream-global`
+  - `geosite:stream-global`
 - `geosite:category-ads-all`使用
   - [Cats-Team/AdRules](https://github.com/Cats-Team/AdRules)
   - [TG-Twilight/AWAvenue-Ads-Rule](https://github.com/TG-Twilight/AWAvenue-Ads-Rule)
@@ -24,6 +24,7 @@
   - `netflix`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/netflix.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/netflix.json)
   - `ai`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/category-ai-!cn.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/category-ai-!cn.json)
   - `google`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/google.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/google.json)
+  - `speedtest`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/speedtest.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/speedtest.json)
   - `geolocation-!cn`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/geolocation-!cn.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/geolocation-!cn.json)
   - `cn`: [srs](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/cn.srs), [json](https://raw.githubusercontent.com/Yuu518/sing-box-rules/rule_set/rule_set_site/cn.json)
 
