@@ -29,12 +29,12 @@ jobs:
         shell: bash
 
       - name: Checkout the "src" branch of this repo
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6.0.1
         with:
           ref: src
 
       - name: Checkout Yuu518/rules
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6.0.1
         with:
           repository: Yuu518/rules
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
@@ -42,25 +42,25 @@ jobs:
           ref: data
 
       - name: Checkout Loyalsoldier/domain-list-custom
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6.0.1
         with:
           repository: Loyalsoldier/domain-list-custom
           path: custom
 
       - name: Checkout v2fly/domain-list-community
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6.0.1
         with:
           repository: v2fly/domain-list-community
           path: community
 
       - name: Checkout converter
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6.0.1
         with:
           repository: Yuu518/meta-rules-converter
           path: convert
 
       - name: Checkout cokebar/gfwlist2dnsmasq
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6.0.1
         with:
           repository: cokebar/gfwlist2dnsmasq
           path: gfwlist2dnsmasq
@@ -71,7 +71,7 @@ jobs:
           echo go_latest=$(curl -s https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep -oE '"version": "[0-9]{1}.[0-9]{1,}(.[0-9]{1,})?"' | head -1 | cut -d':' -f2 | sed 's/ //g; s/"//g') >> $GITHUB_OUTPUT
 
       - name: setup go
-        uses: actions/setup-go@v5.5.0
+        uses: actions/setup-go@v6.1.0
         with:
           go-version: ${{steps.go_latest.outputs.go_latest}}
           cache-dependency-path: ./custom/go.sum
