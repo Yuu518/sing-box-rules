@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "qichamao.com",
+        "qyyjt.cn",
+        "x315.com",
+        "qixin.com",
+        "jindidata.com",
+        "tianyancha.com",
+        "aiqicha.cn",
+        "aiqicha.com",
+        "qcc.com",
+        "qichacha.com",
+        "aiqicha.baidu.com"
+      ]
+    }
+  ]
+}

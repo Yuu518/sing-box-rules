@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "tclai.top",
+        "tcl.com",
+        "tcltech.com",
+        "leiniao.com",
+        "tcl.com.cn"
+      ]
+    }
+  ]
+}

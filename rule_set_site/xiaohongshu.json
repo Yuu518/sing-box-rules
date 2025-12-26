@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "xhscdn.com",
+        "xhscdn.net",
+        "xhslink.com",
+        "xiaohongshu.com",
+        "askdiandian.com",
+        "diandianlife.top"
+      ]
+    }
+  ]
+}

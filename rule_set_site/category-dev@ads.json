@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "collector.github.com",
+        "copilot-telemetry.githubusercontent.com",
+        "ads.unitychina.cn",
+        "splash-ads.cdn.unity.cn",
+        "splash-ads.unitychina.cn",
+        "unityads.unity.cn",
+        "unityads.unity3d.com",
+        "unityads.unitychina.cn"
+      ]
+    }
+  ]
+}
