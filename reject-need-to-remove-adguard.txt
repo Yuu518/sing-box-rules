@@ -1,0 +1,7 @@
+||alimama.alicdn.com^
+||alimama.com^
+||img.alibaba.com^
+||ecma.bdimg.com^
+||ecmb.bdimg.com^
+||ecmc.bdimg.com^
+||grpc.biliapi.net^
