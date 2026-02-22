@@ -110,7 +110,7 @@ jobs:
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
-          curl -sSL $CUSTOM_DIRECT | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
+          # curl -sSL $CUSTOM_DIRECT | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
           curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
@@ -140,10 +140,11 @@ jobs:
           
       - name: Remove domains from "need-to-remove" lists in "src" branch
         run: |
-          python ./removefrom.py -remove ./direct-need-to-remove.txt -from ./direct-list-without-redundant -out ./temp-cn.txt
-          python ./removefrom.py -remove ./proxy-need-to-remove.txt -from ./proxy-list-without-redundant -out ./temp-geolocation-\!cn.txt
-          python ./removefrom.py -remove ./reject-need-to-remove.txt -from ./reject-list-without-redundant -out ./temp-category-ads-all.txt
-          python ./removefrom.py -remove ./reject-need-to-remove-adguard.txt -from ./reject-list-without-redundant-adguard -out ./temp-category-ads-all-adguard.txt
+          chmod +x removefrom.py
+          ./removefrom.py -remove ./direct-need-to-remove.txt -from ./direct-list-without-redundant -out ./temp-cn.txt
+          ./removefrom.py -remove ./proxy-need-to-remove.txt -from ./proxy-list-without-redundant -out ./temp-geolocation-\!cn.txt
+          ./removefrom.py -remove ./reject-need-to-remove.txt -from ./reject-list-without-redundant -out ./temp-category-ads-all.txt
+          ./removefrom.py -remove ./reject-need-to-remove-adguard.txt -from ./reject-list-without-redundant-adguard -out ./temp-category-ads-all-adguard.txt
           
       - name: Remove domains end with ".cn" in "temp-geolocation-!cn.txt" and write lists to data directory
         run: |
@@ -164,10 +165,10 @@ jobs:
           cat ./community/data/category-ads-all | sed '/^regexp:/d' > reject-list.txt
           awk '{print "0.0.0.0 " $0}' reject-list.txt > hosts
           
-      - name: Create `china-list`、`google-cn`、`apple-cn`、`gfw` lists
+      - name: Create `china-list`、`gfw` lists
         run: |
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > ./community/data/china-list
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > china-list.txt
+          curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > ./community/data/china-list
+          curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > china-list.txt
           cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> ./community/data/gfw
           cat ./community/data/gfw | sort --ignore-case -u > gfw.txt
       
