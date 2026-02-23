@@ -90,6 +90,7 @@ jobs:
       - name: Get and add direct domains into temp-direct.txt file
         run: |
           curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > temp-direct.txt
+          cat self_rules/cn-supplement | perl -ne 'print unless /^(?:full|regexp|keyword):/' >> temp-direct.txt
           # curl -sSL $CUSTOM_DIRECT | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
           
       - name: Get and add proxy domains into temp-proxy.txt file
@@ -111,6 +112,7 @@ jobs:
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
           # curl -sSL $CUSTOM_DIRECT | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
+          cat self_rules/cn-supplement | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
           curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
@@ -136,8 +138,8 @@ jobs:
           sort ./direct-list-deleted-unsort > ./direct-list-deleted-sort
           sort ./proxy-list-deleted-unsort > ./proxy-list-deleted-sort
           diff ./direct-list-deleted-sort ./direct-list-with-redundant | awk '/^>/{print $2}' > ./direct-list-without-redundant
-          diff ./proxy-list-deleted-sort ./proxy-list-with-redundant | awk '/^>/{print $2}' > ./proxy-list-without-redundant
-          
+          diff ./proxy-list-deleted-sort ./proxy-list-with-redundant | awk '/^>/{print $2}' > ./proxy-list-without-redundant         
+      
       - name: Remove domains from "need-to-remove" lists in "src" branch
         run: |
           chmod +x removefrom.py
@@ -191,7 +193,7 @@ jobs:
         env:
           NO_SKIP: true
         run: |
-          mkdir -p rule_set/rule_set_site && mkdir -p sing-rule/rule_set_ip
+          mkdir -p rule_set/rule_set_site && mkdir -p sing_rule/rule_set_ip
           cd convert
           go run ./ geosite -f ../custom/publish/geosite.dat -o ../rule_set/rule_set_site -t sing-box
           go run ./ geoip -f ../geoip.dat -o ../rule_set/rule_set_ip -t sing-box
