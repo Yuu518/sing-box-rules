@@ -1,0 +1,44 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "1hai.cn",
+        "izuche.com",
+        "autohome.tel",
+        "autoimg.cn",
+        "dongchediapp.com",
+        "byd.com",
+        "geely.com",
+        "dongchedi.com",
+        "lixiang.com",
+        "nio.cn",
+        "xiaopeng.com",
+        "zeekrlife.com",
+        "gzurl.cn",
+        "guazi.com",
+        "guazistatic.com",
+        "guazi.net",
+        "dcdapp.com",
+        "autohome.com",
+        "izuchebao.com",
+        "wkzuche.com",
+        "zuche.com",
+        "zuchecdn.com",
+        "bitauto.com",
+        "bitautoimg.com",
+        "cheyisou.com",
+        "yiche.com",
+        "yccdn.com",
+        "dcarapi.com",
+        "dcarimg.com",
+        "dcarlive.com",
+        "dcarstatic.com",
+        "dcarvod.com",
+        "autohome.com.cn",
+        "gwm.com.cn",
+        "autoimg.com.cn"
+      ]
+    }
+  ]
+}

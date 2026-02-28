@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "analytics.facebook.com",
+        "facebookads.com",
+        "pixel.facebook.com",
+        "ads-twitter.com",
+        "graph.instagram.com",
+        "graph-fallback.instagram.com"
+      ]
+    }
+  ]
+}

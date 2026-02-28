@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "manga.bilibili.com",
+        "upos-hz-mirrorakam.akamaized.net"
+      ],
+      "domain_suffix": [
+        "b23.tv",
+        "bili22.cn",
+        "bili2233.cn",
+        "bili23.cn",
+        "bili33.cn",
+        "biliapi.com",
+        "biliapi.net",
+        "bilibili.cc",
+        "bilibili.com",
+        "biligo.com",
+        "biliimg.com",
+        "bilivideo.cn",
+        "bilivideo.com",
+        "bilivideo.net",
+        "dreamcast.hk",
+        "hdslb.com",
+        "maoercdn.com",
+        "bilicomic.com",
+        "bilicomics.com"
+      ]
+    }
+  ]
+}

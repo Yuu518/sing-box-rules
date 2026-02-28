@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "chinahr.com",
+        "anjuke.com",
+        "5858.com",
+        "58antenna.cn",
+        "58antenna.com",
+        "ganjistatic1.com",
+        "58che.com",
+        "58control.cn",
+        "58corp.com",
+        "58dns.org",
+        "58lovepet.com",
+        "58uxd.com",
+        "58v5.cn",
+        "58xinghuo.cn",
+        "58xinghuo.com",
+        "58xueche.com",
+        "chrstatic.com",
+        "anjukestatic.com",
+        "ganji.com",
+        "58.com",
+        "sofun.com",
+        "diandao.org",
+        "fang.com",
+        "daojia.com",
+        "soufunimg.com",
+        "jxedt.com",
+        "jxksw.net",
+        "roomeet.cn",
+        "xinchong.com",
+        "zhuancorp.com",
+        "zhuaninc.com",
+        "zhuanspirit.cn",
+        "zhuanspirit.com",
+        "zhuanstatic.com",
+        "zhuanzhuan.com",
+        "58ganji.com",
+        "58ganji-corp.com",
+        "58.com.cn",
+        "58cdn.com.cn"
+      ]
+    }
+  ]
+}

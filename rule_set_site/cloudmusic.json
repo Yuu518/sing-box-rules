@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "ac.dun.163yun.com",
+        "httpdns.n.netease.com",
+        "acstatic-dun.126.net"
+      ],
+      "domain_suffix": [
+        "netease.com",
+        "music.163.com",
+        "music.126.net",
+        "dun.163.com"
+      ]
+    }
+  ]
+}
