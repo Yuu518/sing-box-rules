@@ -9,8 +9,19 @@ on:
     paths-ignore:
       - "**/README.md"
 jobs:
+  go:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{steps.go.outputs.version}}
+    steps:
+      - name: get latest go version
+        id: go
+        run: |
+          echo version=$(curl -s https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep -oE '"version": "[0-9]{1}.[0-9]{1,}(.[0-9]{1,})?"' | head -1 | cut -d':' -f2 | sed 's/ //g; s/"//g') >> $GITHUB_OUTPUT
+
   build:
     runs-on: ubuntu-latest
+    needs: go
     steps:
       - name: Set variables
         run: |
@@ -33,53 +44,44 @@ jobs:
         with:
           ref: src
 
-      - name: Checkout Yuu518/self-rules
-        uses: actions/checkout@v6.0.1
-        with:
-          repository: Yuu518/self-rules
-          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          path: self_rules
-          ref: data
-
-      - name: Checkout Loyalsoldier/domain-list-custom
-        uses: actions/checkout@v6.0.1
-        with:
-          repository: Loyalsoldier/domain-list-custom
-          path: custom
-
       - name: Checkout v2fly/domain-list-community
         uses: actions/checkout@v6.0.1
         with:
           repository: v2fly/domain-list-community
           path: community
 
-      - name: Checkout converter
+      - name: Checkout Yuu518/self-rules
         uses: actions/checkout@v6.0.1
         with:
-          repository: Yuu518/meta-rules-converter
-          path: convert
+          repository: Yuu518/self-rules
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: self-rules
+          ref: data
+
+      - name: Checkout Yuu518/geoip
+        uses: actions/checkout@v6.0.1
+        with:
+          repository: Yuu518/geoip
+          path: geoip
+          ref: release
+
+      - name: Checkout rules generate
+        uses: actions/checkout@v6.0.1
+        with:
+          repository: Yuu518/rules-generate
+          path: generate
+
+      - name: setup go
+        uses: actions/setup-go@v6.1.0
+        with:
+          go-version: ${{needs.go.outputs.version}}
+          cache-dependency-path: ./generate/go.sum
 
       - name: Checkout cokebar/gfwlist2dnsmasq
         uses: actions/checkout@v6.0.1
         with:
           repository: cokebar/gfwlist2dnsmasq
           path: gfwlist2dnsmasq
-
-      - name: get latest go version
-        id: go_latest
-        run: |
-          echo go_latest=$(curl -s https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep -oE '"version": "[0-9]{1}.[0-9]{1,}(.[0-9]{1,})?"' | head -1 | cut -d':' -f2 | sed 's/ //g; s/"//g') >> $GITHUB_OUTPUT
-
-      - name: setup go
-        uses: actions/setup-go@v6.1.0
-        with:
-          go-version: ${{steps.go_latest.outputs.go_latest}}
-          cache-dependency-path: ./custom/go.sum
-
-      - name: Get geoip.dat relative files
-        run: |
-          wget https://github.com/Yuu518/geoip/raw/release/geoip.dat
-          wget https://github.com/Yuu518/geoip/raw/release/geoip.dat.sha256sum
 
       - name: Generate GFWList domains
         run: |
@@ -90,7 +92,7 @@ jobs:
       - name: Get and add direct domains into temp-direct.txt file
         run: |
           curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > temp-direct.txt
-          cat self_rules/cn-supplement | perl -ne 'print unless /^(?:full|regexp|keyword):/' >> temp-direct.txt
+          cat self-rules/cn-supplement | perl -ne 'print unless /^(?:full|regexp|keyword):/' >> temp-direct.txt
           # curl -sSL $CUSTOM_DIRECT | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
           
       - name: Get and add proxy domains into temp-proxy.txt file
@@ -112,7 +114,7 @@ jobs:
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
           # curl -sSL $CUSTOM_DIRECT | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
-          cat self_rules/cn-supplement | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
+          cat self-rules/cn-supplement | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
           curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
@@ -176,27 +178,18 @@ jobs:
       
       - name: Add Custome Rule
         run: |
-          cp -f ./self_rules/* ./community/data
+          cp -f ./self-rules/* ./community/data
 
           echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
           echo "t-mobile.com" >> ./community/data/geolocation-!cn
           echo "ultramobile.com" >> ./community/data/geolocation-!cn
           
-          
-      - name: Build geosite.dat file
-        run: |
-          cd custom || exit 1
-          go run ./ --datapath=../community/data
-          sha256sum publish/geosite.dat > publish/geosite.dat.sha256sum
-          
-      - name: Convert geo to sing-rule-set
-        env:
-          NO_SKIP: true
+      - name: Build sing-box rule-set files
         run: |
           mkdir -p rule_set/rule_set_site && mkdir -p sing_rule/rule_set_ip
-          cd convert
-          go run ./ geosite -f ../custom/publish/geosite.dat -o ../rule_set/rule_set_site -t sing-box
-          go run ./ geoip -f ../geoip.dat -o ../rule_set/rule_set_ip -t sing-box
+          cd generate || exit 1
+          go run ./ domain -d ../community/data -o ../rule_set/rule_set_site -f singbox
+          go run ./ ip -d ../geoip/text -o ../rule_set/rule_set_ip -f singbox
 
       - name: Add AdGuard DNS Filter
         run: |
@@ -212,10 +205,7 @@ jobs:
 
       - name: Move files
         run: |
-          install -Dp ./geoip.dat ./publish/geoip.dat
-          install -Dp ./geoip.dat.sha256sum ./publish/geoip.dat.sha256sum
-          install -Dp ./custom/publish/geosite.dat ./publish/geosite.dat
-          install -Dp ./custom/publish/geosite.dat.sha256sum ./publish/geosite.dat.sha256sum
+          mkdir -p ./publish
           install -p {proxy,direct,reject}-tld-list.txt ./publish/
           install -p {proxy,direct,reject}-list.txt ./publish/
           install -p {china-list,gfw}.txt ./publish/
