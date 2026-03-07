@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "online-cmcc.cn",
+        "migu.cn",
+        "chinamobile.com",
+        "chinamobileltd.com",
+        "cmread.com",
+        "cmvideo.cn",
+        "cmcc-cs.cn",
+        "migucloud.com",
+        "migufun.com",
+        "miguvideo.com",
+        "139.com",
+        "mmarket6.com",
+        "cmicrwx.cn",
+        "andfx.cn",
+        "andfx.net",
+        "cmicapm.com",
+        "10086.cn",
+        "cmicvip.cn",
+        "cmpassport.com",
+        "mmarket.com",
+        "fetion-portal.com",
+        "fetionpic.com",
+        "cytxl.com.cn",
+        "cmft.com.cn",
+        "speedtest.hk.chinamobile.com",
+        "speedtestbb.hk.chinamobile.com"
+      ]
+    }
+  ]
+}
