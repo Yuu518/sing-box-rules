@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ddimg.mobi",
+        "imcome.net",
+        "heytea.com",
+        "anlaiye.com",
+        "lppzimg.com",
+        "imcoming.com",
+        "ddfresh.net",
+        "meican.com",
+        "meicanstatic.com",
+        "100.me",
+        "haidilao.com",
+        "ddcorp.net",
+        "ddxq.mobi",
+        "ddmaicai.net",
+        "ddmc.mobi",
+        "dduser.mobi",
+        "3songshu.com",
+        "imaicai.mobi",
+        "lkcoffee.com",
+        "luckincoffeecdn.com",
+        "yyds.co",
+        "517lppz.com",
+        "lppz.com",
+        "anlaiye.com.cn"
+      ]
+    }
+  ]
+}

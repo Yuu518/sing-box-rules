@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "qqmusic.qq.com",
+        "aqqmusic.tc.qq.com",
+        "y.gtimg.cn",
+        "v.streaming.qq.com",
+        "snowflake.qq.com"
+      ],
+      "domain_suffix": [
+        "tencentmusic.com",
+        "y.qq.com",
+        "d3g.qq.com",
+        "music.qq.com",
+        "music.tc.qq.com"
+      ]
+    }
+  ]
+}

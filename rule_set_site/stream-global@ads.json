@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": "disney.my.sentry.io",
+      "domain_suffix": [
+        "ad.m.iqiyi.com",
+        "afp.iqiyi.com",
+        "c.uaa.iqiyi.com",
+        "cloudpush.iqiyi.com",
+        "cupid.iqiyi.com",
+        "ifacelog.iqiyi.com",
+        "mbdlog.iqiyi.com",
+        "msg.video.qiyi.com",
+        "msg2.video.qiyi.com",
+        "policy.video.iqiyi.com",
+        "ad.games.dmm.com",
+        "bluekai.com",
+        "fout.jp",
+        "gmossp-sp.jp",
+        "i-mobile.co.jp",
+        "im-apps.net",
+        "impact-ad.jp",
+        "ladsp.com",
+        "microad.co.jp",
+        "microad.jp",
+        "socdm.com"
+      ]
+    }
+  ]
+}
