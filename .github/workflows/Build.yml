@@ -27,7 +27,8 @@ jobs:
         run: |
           echo "RELEASE_NAME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
           echo "SING_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | perl -ne 'if(/"tag_name":\s*"v([0-9a-zA-Z\.-]+)"/){ print "$1\n"; last }')" >> $GITHUB_ENV
-          echo "CHINA_DOMAINS_URL=https://static-file-global.353355.xyz/rules/cn-additional-list.txt" >> $GITHUB_ENV
+          echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
+          echo "CHINA_ADDITIONAL_DOMAINS_URL=https://static-file-global.353355.xyz/rules/cn-additional-list.txt" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
           echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt" >> $GITHUB_ENV
@@ -49,14 +50,6 @@ jobs:
         with:
           repository: v2fly/domain-list-community
           path: community
-
-      - name: Checkout Yuu518/self-rules
-        uses: actions/checkout@v6.0.1
-        with:
-          repository: Yuu518/self-rules
-          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          path: self-rules
-          ref: data
 
       - name: Checkout Yuu518/geoip
         uses: actions/checkout@v6.0.1
@@ -83,6 +76,14 @@ jobs:
           repository: cokebar/gfwlist2dnsmasq
           path: gfwlist2dnsmasq
 
+      - name: Configure AWS CLI for R2
+        run: |
+          mkdir r2
+          aws configure set aws_access_key_id ${{ secrets.R2_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          aws configure set default.region auto
+          aws s3 sync s3://${{ secrets.R2_BUCKET_NAME }}/ ./r2 --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+
       - name: Generate GFWList domains
         run: |
           cd gfwlist2dnsmasq || exit 1
@@ -91,8 +92,8 @@ jobs:
           
       - name: Get and add direct domains into temp-direct.txt file
         run: |
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > temp-direct.txt
-          cat self-rules/cn-supplement | perl -ne 'print unless /^(?:full|regexp|keyword):/' >> temp-direct.txt
+          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > temp-direct.txt
+          curl -sSL $CHINA_ADDITIONAL_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' >> temp-direct.txt
           # curl -sSL $CUSTOM_DIRECT | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
           
       - name: Get and add proxy domains into temp-proxy.txt file
@@ -114,7 +115,6 @@ jobs:
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
           # curl -sSL $CUSTOM_DIRECT | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
-          cat self-rules/cn-supplement | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
           curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
@@ -178,7 +178,7 @@ jobs:
       
       - name: Add Custome Rule
         run: |
-          cp -f ./self-rules/* ./community/data
+          cp -f ./r2/* ./community/data
 
           echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
           echo "t-mobile.com" >> ./community/data/geolocation-!cn
@@ -193,8 +193,7 @@ jobs:
 
       - name: Add AdGuard DNS Filter
         run: |
-          mkdir -p ./adguard
-          cd ./adguard
+          mkdir -p ./adguard && cd ./adguard
           wget https://github.com/SagerNet/sing-box/releases/download/v"${SING_VERSION}"/sing-box-"${SING_VERSION}"-linux-amd64.tar.gz -O sing-box.tar.gz &&
           tar zxvf sing-box.tar.gz &&
           mv sing-box-"${SING_VERSION}"-linux-amd64/sing-box ./
