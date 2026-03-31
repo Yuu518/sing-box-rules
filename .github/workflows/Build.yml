@@ -94,7 +94,6 @@ jobs:
         run: |
           curl -sSL $CHINA_DOMAINS_URL > temp-direct.txt
           curl -sSL $CHINA_ADDITIONAL_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' >> temp-direct.txt
-          curl -sSL $CUSTOM_DIRECT >> temp-direct.txt
           
       - name: Get and add proxy domains into temp-proxy.txt file
         run: |
