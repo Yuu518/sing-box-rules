@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "RELEASE_NAME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
           echo "SING_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | perl -ne 'if(/"tag_name":\s*"v([0-9a-zA-Z\.-]+)"/){ print "$1\n"; last }')" >> $GITHUB_ENV
-          echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
+          echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/pmkol/easymosdns/rules/china_domain_list.txt" >> $GITHUB_ENV
           echo "CHINA_ADDITIONAL_DOMAINS_URL=https://static-file-global.353355.xyz/rules/cn-additional-list.txt" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
@@ -35,7 +35,7 @@ jobs:
           echo "CATS_TEAM_ADRULES_ADGUARD=https://adrules.top/dns.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt" >> $GITHUB_ENV
           echo "AWAVENUE_ADS_RULES_URL_ADGUARD=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt" >> $GITHUB_ENV
-          echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/cn.txt" >> $GITHUB_ENV
+          echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/pmkol/easymosdns/rules/cdn_domain_list.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_GFWLIST=https://raw.githubusercontent.com/pexcn/daily/gh-pages/gfwlist/gfwlist.txt" >> $GITHUB_ENV
         shell: bash
@@ -92,9 +92,9 @@ jobs:
           
       - name: Get and add direct domains into temp-direct.txt file
         run: |
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' > temp-direct.txt
+          curl -sSL $CHINA_DOMAINS_URL > temp-direct.txt
           curl -sSL $CHINA_ADDITIONAL_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' >> temp-direct.txt
-          # curl -sSL $CUSTOM_DIRECT | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-direct.txt
+          curl -sSL $CUSTOM_DIRECT >> temp-direct.txt
           
       - name: Get and add proxy domains into temp-proxy.txt file
         run: |
@@ -114,7 +114,7 @@ jobs:
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
-          # curl -sSL $CUSTOM_DIRECT | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > direct-reserve.txt
+          curl -sSL $CUSTOM_DIRECT > direct-reserve.txt
           curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
