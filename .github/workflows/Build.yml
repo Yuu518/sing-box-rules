@@ -113,7 +113,7 @@ jobs:
           
       - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
         run: |
-          curl -sSL $CUSTOM_DIRECT > direct-reserve.txt
+          # curl -sSL $CUSTOM_DIRECT > direct-reserve.txt
           curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
           
       - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
@@ -161,7 +161,7 @@ jobs:
           
       - name: Add `full`, `regexp` and `keyword` type of rules back into "cn", "geolocation-!cn" and "category-ads-all" list
         run: |
-          [ -f "direct-reserve.txt" ] && cat direct-reserve.txt >> ./community/data/cn
+          # [ -f "direct-reserve.txt" ] && cat direct-reserve.txt >> ./community/data/cn
           [ -f "proxy-reserve.txt" ] && cat proxy-reserve.txt >> ./community/data/geolocation-\!cn
           cp ./community/data/cn direct-list.txt
           cp ./community/data/geolocation-\!cn proxy-list.txt
