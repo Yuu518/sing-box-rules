@@ -183,6 +183,7 @@ jobs:
           echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
           echo "t-mobile.com" >> ./community/data/geolocation-!cn
           echo "ultramobile.com" >> ./community/data/geolocation-!cn
+          echo "googleapis.cn" >> ./community/data/geolocation-!cn
           
       - name: Build sing-box rule-set files
         run: |
