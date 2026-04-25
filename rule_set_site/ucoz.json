@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ukit.ai",
+        "ucoz.org",
+        "ucoz.co",
+        "uguide.ru",
+        "ucozmedia.ru",
+        "ucoz.com",
+        "ucoz.ru",
+        "scripts-for-ucoz.ru",
+        "ucoz.de",
+        "ucoz.es",
+        "ucoz.fr",
+        "ucoz.hu",
+        "ucoz.kz",
+        "ucoz.lv",
+        "ucoz.club",
+        "ucoz.md",
+        "ucoz.site",
+        "ucoz.pl",
+        "ucoz.net",
+        "ucoz.ua",
+        "ucozmedia.com",
+        "ucoz.ae",
+        "ukit.com",
+        "ukit.group",
+        "ukit.me",
+        "at.ua",
+        "ucoztemplates.com",
+        "ucoz.com.ro",
+        "ucoz.com.br",
+        "ucoz.co.uk",
+        "ucoz.co.il"
+      ]
+    }
+  ]
+}
