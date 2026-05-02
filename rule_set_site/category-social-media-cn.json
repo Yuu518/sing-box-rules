@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "meipian.me",
+        "yy.com",
+        "dandan818.com",
+        "dandanvoice.com",
+        "fanfou.com",
+        "maimai.cn",
+        "taou.com",
+        "zsxq.com",
+        "gracg.com",
+        "procg.cn",
+        "yystatic.com",
+        "hupucdn.com",
+        "shihuo.cn",
+        "ruguoapp.com",
+        "ivwen.com",
+        "meipian.cn",
+        "tieba.com",
+        "okjk.co",
+        "hupu.com",
+        "duowan.com",
+        "dwstatic.com",
+        "zhihu.com",
+        "zhimg.com",
+        "coolapk.com",
+        "coolapkmarket.com",
+        "coolapkmarket.net",
+        "douban.com",
+        "douban.fm",
+        "doubanio.com",
+        "jike.city",
+        "jikecdn.com",
+        "okjike.com",
+        "tieba.baidu.com",
+        "hoopchina.com.cn",
+        "crash2.zhihu.com",
+        "zhihu-web-analytics.zhihu.com"
+      ]
+    }
+  ]
+}

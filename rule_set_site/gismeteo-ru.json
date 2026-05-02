@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "gismeteo.net",
+        "gismeteo.ru",
+        "gismeteo.st"
+      ]
+    }
+  ]
+}
