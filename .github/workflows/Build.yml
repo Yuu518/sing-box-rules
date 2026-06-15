@@ -108,8 +108,9 @@ jobs:
           
       - name: Get and add cdn domains file
         run: |
-          curl -sSL $CDN1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > temp-cdn.txt
-          curl -sSL $CDN2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> temp-cdn.txt
+          curl -sSL $CDN_1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > temp-cdn.txt
+          curl -sSL $CDN_2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> temp-cdn.txt
+      
       - name: Get and add reject domains file
         run: |
           curl -sSL $CATS_TEAM_ADRULES | sed 's/domain://g' >> temp-reject.txt
@@ -191,7 +192,7 @@ jobs:
           echo "ultramobile.com" >> ./community/data/geolocation-!cn
           echo "googleapis.cn" >> ./community/data/geolocation-!cn
 
-          cp -f temp-cdn.txt ./community/data/category-cdn-!cn
+          cat temp-cdn.txt > ./community/data/category-cdn-\!cn
           
       - name: Build sing-box rule-set files
         run: |
