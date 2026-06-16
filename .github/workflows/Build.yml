@@ -37,6 +37,7 @@ jobs:
           echo "AWAVENUE_ADS_RULES_URL_ADGUARD=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt" >> $GITHUB_ENV
           echo "CDN_1=https://ruleset.skk.moe/List/domainset/cdn.conf" >> $GITHUB_ENV
           echo "CDN_2=https://ruleset.skk.moe/List/non_ip/microsoft_cdn.conf" >> $GITHUB_ENV
+          echo "CDN_3=https://ruleset.skk.moe/List/domainset/apple_cdn.conf" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/pmkol/easymosdns/rules/cdn_domain_list.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_GFWLIST=https://raw.githubusercontent.com/pmkol/easymosdns/rules/gfw_domain_list.txt" >> $GITHUB_ENV
@@ -110,7 +111,8 @@ jobs:
         run: |
           curl -sSL $CDN_1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > temp-cdn.txt
           curl -sSL $CDN_2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> temp-cdn.txt
-      
+          curl -sSL $CDN_3 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' >> temp-cdn.txt
+          
       - name: Get and add reject domains file
         run: |
           curl -sSL $CATS_TEAM_ADRULES | sed 's/domain://g' >> temp-reject.txt
