@@ -26,7 +26,6 @@ jobs:
       - name: Set variables
         run: |
           echo "RELEASE_NAME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
-          echo "SING_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | perl -ne 'if(/"tag_name":\s*"v([0-9a-zA-Z\.-]+)"/){ print "$1\n"; last }')" >> $GITHUB_ENV
           echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/pmkol/easymosdns/rules/china_domain_list.txt" >> $GITHUB_ENV
           echo "CHINA_ADDITIONAL_DOMAINS_URL=https://static-file-global.353355.xyz/rules/cn-additional-list.txt" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
@@ -205,14 +204,9 @@ jobs:
 
       - name: Add AdGuard DNS Filter
         run: |
-          mkdir -p ./adguard && cd ./adguard
-          wget https://github.com/SagerNet/sing-box/releases/download/v"${SING_VERSION}"/sing-box-"${SING_VERSION}"-linux-amd64.tar.gz -O sing-box.tar.gz &&
-          tar zxvf sing-box.tar.gz &&
-          mv sing-box-"${SING_VERSION}"-linux-amd64/sing-box ./
-          chmod 755 sing-box
-          ./sing-box rule-set convert -t adguard --output category-ads-all-adguard.srs ../reject-list-adguard.txt
-          ./sing-box rule-set convert -t adguard --output awavenue-ads.srs ../awavenue-ads-adguard.txt
-          mv *.srs ../rule_set/rule_set_site
+          cd generate || exit 1
+          go run ./ adguard -d ../awavenue-ads-adguard.txt -o ../rule_set/rule_set_site/awavenue-ads.srs
+          go run ./ adguard -d ../reject-list-adguard.txt -o ../rule_set/rule_set_site/category-ads-all-adguard.srs
 
       - name: Move files
         run: |
