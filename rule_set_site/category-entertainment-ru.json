@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "kinopoisk.ru",
+        "wink.am",
+        "trbcdn.net",
+        "kinorium.com",
+        "cdnvideo.ru",
+        "amediateka.ru",
+        "beeline.tv",
+        "ivi.ru",
+        "premier.one",
+        "smotreshka.tv",
+        "start.ru",
+        "tvigle.ru",
+        "cdnvideohub.com",
+        "viju.ru",
+        "24h.tv",
+        "rtbcdn.ru",
+        "okkoapi.tv",
+        "playfamily.ru",
+        "okko.sport",
+        "okko.tv",
+        "restream-media.net",
+        "restream.ru",
+        "more.tv",
+        "promodj.com",
+        "wink.ru",
+        "rutube.ru",
+        "rutubelist.ru",
+        "kinopoisk-ru.clstorage.net"
+      ]
+    }
+  ]
+}
