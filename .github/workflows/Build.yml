@@ -189,6 +189,8 @@ jobs:
           cp -f ./r2/* ./community/data
 
           echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
+          echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/geolocation-!cn
+          echo "pikpak.site" >> ./community/data/pikpak
           echo "t-mobile.com" >> ./community/data/geolocation-!cn
           echo "ultramobile.com" >> ./community/data/geolocation-!cn
           echo "googleapis.cn" >> ./community/data/geolocation-!cn
