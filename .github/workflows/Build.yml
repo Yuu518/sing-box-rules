@@ -199,7 +199,7 @@ jobs:
           
       - name: Build sing-box rule-set files
         run: |
-          mkdir -p rule_set/rule_set_site && mkdir -p sing_rule/rule_set_ip
+          mkdir -p rule_set/rule_set_site && mkdir -p rule_set/rule_set_ip
           cd generate || exit 1
           go run ./ domain -d ../community/data -o ../rule_set/rule_set_site -f singbox
           go run ./ ip -d ../geoip/text -o ../rule_set/rule_set_ip -f singbox
@@ -209,6 +209,18 @@ jobs:
           cd generate || exit 1
           go run ./ adguard -d ../awavenue-ads-adguard.txt -o ../rule_set/rule_set_site/awavenue-ads.srs
           go run ./ adguard -d ../reject-list-adguard.txt -o ../rule_set/rule_set_site/category-ads-all-adguard.srs
+
+      - name: Build Surge, Loon and mihomo rule-set files
+        run: |
+          mkdir -p rule-set/surge/geosite && mkdir -p rule-set/surge/geoip
+          mkdir -p rule-set/mihomo/geosite && mkdir -p rule-set/mihomo/geoip
+          cd generate || exit 1
+
+          go run ./ domain -d ../community/data -o ../rule-set/surge/geosite -f surge
+          go run ./ ip -d ../geoip/text -o ../rule-set/surge/geoip -f surge
+
+          go run ./ domain -d ../community/data -o ../rule-set/mihomo/geosite -f mihomo
+          go run ./ ip -d ../geoip/text -o ../rule-set/mihomo/geoip -f mihomo
 
       - name: Move files
         run: |
@@ -244,6 +256,19 @@ jobs:
             git commit -m "Released on ${RELEASE_NAME}"
             git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
             git push -f -u origin rule_set
+
+      - name: Git push assets to "rule-set" branch of Yuu518/Yuu-rules
+        run: |
+            cd rule-set || exit 1
+            ls
+            git init
+            git config --local user.name "github-actions[bot]"
+            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git checkout -b rule-set
+            git add .
+            git commit -m "Released on ${RELEASE_NAME}"
+            git remote add origin "https://x-access-token:${{ secrets.RULES_REPO_TOKEN }}@github.com/Yuu518/Yuu-rules"
+            git push -f -u origin rule-set
 
       - name: Delete Workflow Runs
         uses: Mattraks/delete-workflow-runs@v2.0.6
