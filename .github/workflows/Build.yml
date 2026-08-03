@@ -106,12 +106,6 @@ jobs:
           curl -L $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-proxy.txt
           curl -L $CUSTOM_GFWLIST >> temp-proxy.txt
           
-      - name: Get and add cdn domains file
-        run: |
-          curl -sSL $CDN_1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > temp-cdn.txt
-          curl -sSL $CDN_2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> temp-cdn.txt
-          curl -sSL $CDN_3 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' >> temp-cdn.txt
-          
       - name: Get and add reject domains file
         run: |
           curl -sSL $CATS_TEAM_ADRULES | sed 's/domain://g' >> temp-reject.txt
@@ -183,20 +177,20 @@ jobs:
           curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > china-list.txt
           cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> ./community/data/gfw
           cat ./community/data/gfw | sort --ignore-case -u > gfw.txt
+
+      - name: Get and add cdn domains file
+        run: |
+          curl -sSL $CDN_1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > ./community/data/category-cdn-\!cn
+          curl -sSL $CDN_2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> ./community/data/category-cdn-\!cn
+          curl -sSL $CDN_3 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' >> ./community/data/category-cdn-\!cn
+          echo "include:pikpak" >> ./community/data/category-cdn-\!cn
       
       - name: Add Custome Rule
         run: |
           cp -f ./r2/* ./community/data
 
-          echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/googlefcm
-          echo "regexp:^(alt[1-8]-)?mtalk4?(-(staging|dev))?\.google\.com$" >> ./community/data/geolocation-!cn
           echo "pikpak.site" >> ./community/data/pikpak
-          echo "t-mobile.com" >> ./community/data/geolocation-!cn
-          echo "ultramobile.com" >> ./community/data/geolocation-!cn
-          echo "googleapis.cn" >> ./community/data/geolocation-!cn
 
-          cat temp-cdn.txt > ./community/data/category-cdn-\!cn
-          
       - name: Build sing-box rule-set files
         run: |
           mkdir -p rule_set/rule_set_site && mkdir -p rule_set/rule_set_ip
@@ -214,6 +208,7 @@ jobs:
         run: |
           mkdir -p rule-set/surge/geosite && mkdir -p rule-set/surge/geoip
           mkdir -p rule-set/mihomo/geosite && mkdir -p rule-set/mihomo/geoip
+          mkdir -p rule-set/text/geosite && mkdir -p rule-set/text/geoip
           cd generate || exit 1
 
           go run ./ domain -d ../community/data -o ../rule-set/surge/geosite -f surge
@@ -221,6 +216,9 @@ jobs:
 
           go run ./ domain -d ../community/data -o ../rule-set/mihomo/geosite -f mihomo
           go run ./ ip -d ../geoip/text -o ../rule-set/mihomo/geoip -f mihomo
+
+          go run ./ domain -d ../community/data -o ../rule-set/text/geosite -f text
+          go run ./ ip -d ../geoip/text -o ../rule-set/text/geoip -f text
 
       - name: Move files
         run: |
