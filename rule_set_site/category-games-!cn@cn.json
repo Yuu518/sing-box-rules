@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "alibaba.cdn.steampipe.steamcontent.com",
+        "gog.qtlglb.com",
+        "lv.queniujq.cn",
+        "uplaypc-s-ubisoft.cdn.ubi.com",
+        "xz.pphimalayanrt.com"
+      ],
+      "domain_suffix": [
+        "bluearchive-cn.com",
+        "client-update.queniuqe.com",
+        "csgo.com.cn",
+        "csgo.wmsj.cn",
+        "dl.steam.clngaa.com",
+        "dota2.com.cn",
+        "dota2.wmsj.cn",
+        "gstore.val.manlaxy.com",
+        "leagueoflegends.cn",
+        "legendofzelda.cn",
+        "legendofzelda.com.cn",
+        "lpl.com.cn",
+        "mariokart.cn",
+        "mariokart.com.cn",
+        "miitomo.com.cn",
+        "nintendolabo.cn",
+        "nintendoswitch.cn",
+        "nintendoswitch.com.cn",
+        "st.dl.bscstorage.net",
+        "st.dl.eccdnx.com",
+        "st.dl.pinyuncloud.com",
+        "steamchina.com",
+        "steampowered.com.8686c.com",
+        "steamstatic.com.8686c.com",
+        "supermariobros.com.cn",
+        "supersmashbros.cn",
+        "supersmashbros.com.cn",
+        "wmsjsteam.com",
+        "xboxlive.cn",
+        "xn--mts47c3w9b1qr.cn",
+        "yostar.cn"
+      ]
+    }
+  ]
+}

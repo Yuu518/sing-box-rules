@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "fandango.com",
+        "mgo-images.com",
+        "mgo.com",
+        "ravm.tv",
+        "roku.com",
+        "rokutime.com"
+      ]
+    }
+  ]
+}
