@@ -37,6 +37,7 @@ jobs:
           echo "CDN_1=https://ruleset.skk.moe/List/domainset/cdn.conf" >> $GITHUB_ENV
           echo "CDN_2=https://ruleset.skk.moe/List/non_ip/microsoft_cdn.conf" >> $GITHUB_ENV
           echo "CDN_3=https://ruleset.skk.moe/List/domainset/apple_cdn.conf" >> $GITHUB_ENV
+          echo "CUSTOM_DOWNLOAD=https://ruleset.skk.moe/List/domainset/download.conf" >> $GITHUB_ENV
           echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/pmkol/easymosdns/rules/cdn_domain_list.txt" >> $GITHUB_ENV
           echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
           echo "CUSTOM_GFWLIST=https://raw.githubusercontent.com/pmkol/easymosdns/rules/gfw_domain_list.txt" >> $GITHUB_ENV
@@ -178,18 +179,19 @@ jobs:
           cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> ./community/data/gfw
           cat ./community/data/gfw | sort --ignore-case -u > gfw.txt
 
-      - name: Get and add cdn domains file
+      - name: Get and add cdn and download domains file
         run: |
           curl -sSL $CDN_1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > ./community/data/category-cdn-\!cn
           curl -sSL $CDN_2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> ./community/data/category-cdn-\!cn
           curl -sSL $CDN_3 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' >> ./community/data/category-cdn-\!cn
-          echo "include:pikpak" >> ./community/data/category-cdn-\!cn
+          curl -sSL $CUSTOM_DOWNLOAD | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > ./community/data/download-\!cn
       
       - name: Add Custome Rule
         run: |
           cp -f ./r2/* ./community/data
 
           echo "pikpak.site" >> ./community/data/pikpak
+          echo "include:pikpak" >> ./community/data/download-\!cn
 
       - name: Build sing-box rule-set files
         run: |
