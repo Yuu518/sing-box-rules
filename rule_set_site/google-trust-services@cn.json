@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "c.pki.goog",
+        "crl.pki.goog",
+        "crls.pki.goog",
+        "i.pki.goog",
+        "o.pki.goog",
+        "ocsp.pki.goog",
+        "pki-goog.l.google.com"
+      ]
+    }
+  ]
+}
