@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "bili2.cc",
+        "bili888.com",
+        "bili999.com"
+      ]
+    }
+  ]
+}
