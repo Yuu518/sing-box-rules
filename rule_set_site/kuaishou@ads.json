@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "apilog-web.acfun.cn",
+        "log-sdk.gifshow.com",
+        "wlog.kuaishou.com"
+      ],
+      "domain_suffix": [
+        "adbkwai.com",
+        "adkwai.com",
+        "adukwai.com",
+        "e.kuaishou.cn",
+        "e.kuaishou.com"
+      ]
+    }
+  ]
+}
