@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "more.tv",
+        "restream-media.net",
+        "restream.ru",
+        "wink.am",
+        "wink.ru"
+      ]
+    }
+  ]
+}
