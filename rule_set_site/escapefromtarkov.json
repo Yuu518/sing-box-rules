@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "eft-store.com",
+        "escapefromtarkov.com",
+        "tarkov.com"
+      ]
+    }
+  ]
+}

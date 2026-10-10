@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "keepmovingwithmovefree.com",
+        "move-free.net",
+        "movefree.cn",
+        "movefreeoffers.com",
+        "movefreerewards.com",
+        "movefrees.com",
+        "schiffvitamins.com"
+      ]
+    }
+  ]
+}
