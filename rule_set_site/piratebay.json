@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "apibay.org",
+        "pirates-forum.org",
+        "thepiratebay.org",
+        "torrindex.net"
+      ]
+    }
+  ]
+}
