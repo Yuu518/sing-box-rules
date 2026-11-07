@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ams02.space",
+        "cern",
+        "cern.ch",
+        "cixp.net",
+        "dotcernpilot.info",
+        "ippog.org",
+        "linearcollider.org"
+      ]
+    }
+  ]
+}

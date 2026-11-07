@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "azurecr.io",
+        "docker.io",
+        "ecr.aws",
+        "gcr.io",
+        "ghcr.io",
+        "mcr.microsoft.com",
+        "quay.io",
+        "registry.gitlab.com",
+        "registry.k8s.io"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ads.unitychina.cn",
+        "badjs.weixinbridge.com",
+        "splash-ads.cdn.unity.cn",
+        "splash-ads.unitychina.cn",
+        "unityads.unity.cn",
+        "unityads.unitychina.cn"
+      ]
+    }
+  ]
+}
