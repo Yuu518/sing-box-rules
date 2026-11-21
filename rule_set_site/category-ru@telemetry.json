@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "analytics-stage.wildberries.ru",
+        "analytics.mobile.yandex.net",
+        "analytics.wildberries.ru",
+        "error-tracking.megamarket.tech",
+        "log.strm.yandex.ru",
+        "marketplace-sentry.wb.ru",
+        "mc.yandex.com",
+        "mc.yandex.net",
+        "mc.yango.com",
+        "metrics.21-school.ru",
+        "metrika.kontur.ru",
+        "sentry-ng.g.smailru.net",
+        "sentry.dev-my.com",
+        "sentry.dev-my.games",
+        "sentry.iptv.rt.ru",
+        "sentry.kontur.host",
+        "sentry.mindbox.ru",
+        "sentry.ozon.ru",
+        "sentry.popmechanic.ru",
+        "sentry.rustore.ru",
+        "sentry.sberauto.com",
+        "sentry.viqeo.tv",
+        "sentry.wb.ru",
+        "sentry.x5.ru",
+        "srch-telemeter10.g.smailru.net",
+        "stats.avito.ru",
+        "stats.dahlmessenger.com",
+        "stats.dev.telega.info",
+        "stats.rustore.ru",
+        "stats.telega.info",
+        "stats.vk-portal.net",
+        "tracing-http.megamarket.tech",
+        "web-analytics.wildberries.ru"
+      ],
+      "domain_suffix": [
+        "appmetrica.yandex.com",
+        "appmetrica.yandex.net",
+        "appmetrica.yandex.ru",
+        "appmetrica.yango.com",
+        "apptracer.ru",
+        "clickstream.sberbank.ru",
+        "counter.yandex.ru",
+        "log.dzen.ru",
+        "mc.yandex.ru",
+        "metrics.viqeo.tv",
+        "metrika.yandex.com",
+        "metrika.yandex.net",
+        "metrika.yandex.ru",
+        "webvisor.com",
+        "webvisor.org",
+        "yandex-metrica.ru",
+        "yandexmetrica.com"
+      ]
+    }
+  ]
+}

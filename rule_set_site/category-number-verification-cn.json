@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain": [
+        "enrichgw.10010.com",
+        "hap.10010.com",
+        "hs.wosms.cn",
+        "id6.me",
+        "opencloud.wostore.cn"
+      ],
+      "domain_suffix": "cmpassport.com"
+    }
+  ]
+}

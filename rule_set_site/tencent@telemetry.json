@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": [
+        "badjs.weixinbridge.com",
+        "beacon.cdn.qq.com",
+        "beacon.qq.com",
+        "beaconcdn.qq.com",
+        "btrace.qq.com",
+        "bugly.qq.com",
+        "htrace.wetvinfo.com",
+        "log.tbs.qq.com",
+        "monitor.music.qq.com",
+        "monitor.uu.qq.com",
+        "mtrace.qq.com",
+        "report.qqweb.qq.com",
+        "report.tencentmusic.com",
+        "rmonitor.qq.com",
+        "sngmta.qq.com",
+        "stat.y.qq.com",
+        "tpstelemetry.tencent.com",
+        "trace.qq.com"
+      ]
+    }
+  ]
+}
