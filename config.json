@@ -1,0 +1,473 @@
+{
+  "input": [
+    {
+      "type": "v2flyDomain",
+      "action": "add",
+      "args": {
+        "inputDir": "./community/data"
+      }
+    },
+    {
+      "type": "v2flyDomain",
+      "action": "replace",
+      "args": {
+        "inputDir": "s3:///",
+        "fallbackDir": "./r2"
+      }
+    },
+    {
+      "type": "cutter",
+      "action": "remove",
+      "args": {
+        "kind": "domain",
+        "wantedList": [
+          "cn",
+          "geolocation-!cn",
+          "category-ads-all",
+          "china-list",
+          "category-cdn-!cn",
+          "download-!cn"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "cn",
+        "uri": "s3:///cn-only",
+        "fallbackURI": "./r2/cn-only"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "cn",
+        "uri": "https://static-file-global.353355.xyz/rules/cn-additional-list.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "cn",
+        "uri": "./src/direct.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "remove",
+      "args": {
+        "name": "cn",
+        "uri": "./src/direct-need-to-remove.txt"
+      }
+    },
+    {
+      "type": "domainFilter",
+      "action": "add",
+      "args": {
+        "wantedList": ["cn"],
+        "validDomainOnly": true
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "names": ["geolocation-!cn", "gfw"],
+        "uri": "https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt",
+        "excludeAttrs": ["cn"],
+        "onlyRuleTypes": ["domain_suffix"]
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "https://raw.githubusercontent.com/pmkol/easymosdns/rules/gfw_domain_list.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "./src/proxy.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "remove",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "./src/proxy-need-to-remove.txt"
+      }
+    },
+    {
+      "type": "domainFilter",
+      "action": "add",
+      "args": {
+        "wantedList": ["geolocation-!cn"],
+        "validDomainOnly": true,
+        "excludeSuffixes": [".cn"]
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "geolocation-!cn",
+        "uri": "https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt",
+        "excludeAttrs": ["cn"],
+        "onlyRuleTypes": ["domain", "domain_keyword", "domain_regex"]
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "category-ads-all",
+        "uri": "https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "category-ads-all",
+        "uri": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "category-ads-all",
+        "uri": "./src/reject.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "remove",
+      "args": {
+        "name": "category-ads-all",
+        "uri": "./src/reject-need-to-remove.txt"
+      }
+    },
+    {
+      "type": "adguard",
+      "action": "add",
+      "args": {
+        "name": "category-ads-all-adguard",
+        "uri": "https://adrules.top/dns.txt"
+      }
+    },
+    {
+      "type": "adguard",
+      "action": "add",
+      "args": {
+        "names": ["category-ads-all-adguard", "awavenue-ads"],
+        "uri": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt"
+      }
+    },
+    {
+      "type": "adguard",
+      "action": "remove",
+      "args": {
+        "name": "category-ads-all-adguard",
+        "uri": "./src/reject-need-to-remove-adguard.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "china-list",
+        "uri": "https://raw.githubusercontent.com/pmkol/easymosdns/rules/china_domain_list.txt"
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "category-cdn-!cn",
+        "uri": "https://ruleset.skk.moe/List/domainset/cdn.conf",
+        "skipEntries": 1
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "category-cdn-!cn",
+        "uri": "https://ruleset.skk.moe/List/non_ip/microsoft_cdn.conf",
+        "skipEntries": 1
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "category-cdn-!cn",
+        "uri": "https://ruleset.skk.moe/List/domainset/apple_cdn.conf",
+        "skipEntries": 1
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "download-!cn",
+        "uri": "https://ruleset.skk.moe/List/domainset/download.conf",
+        "skipEntries": 1
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "pikpak",
+        "rules": ["pikpak.site"]
+      }
+    },
+    {
+      "type": "domain",
+      "action": "add",
+      "args": {
+        "name": "download-!cn",
+        "rules": ["include:pikpak"]
+      }
+    },
+    {
+      "type": "v2flyResolve",
+      "action": "add",
+      "args": {
+        "generateAttrEntries": true
+      }
+    },
+    {
+      "type": "ip",
+      "action": "add",
+      "args": {
+        "inputDir": "./geoip/text"
+      }
+    }
+  ],
+  "output": [
+    {
+      "type": "singboxDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule_set/rule_set_site",
+        "version": 4,
+        "writeSRS": true,
+        "writeJSON": true
+      }
+    },
+    {
+      "type": "singboxIP",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule_set/rule_set_ip",
+        "version": 4,
+        "writeSRS": true,
+        "writeJSON": true
+      }
+    },
+    {
+      "type": "singboxAdGuard",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule_set/rule_set_site",
+        "version": 4,
+        "wantedList": ["awavenue-ads", "category-ads-all-adguard"]
+      }
+    },
+    {
+      "type": "surgeDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule-set/surge/geosite"
+      }
+    },
+    {
+      "type": "surgeIP",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule-set/surge/geoip"
+      }
+    },
+    {
+      "type": "mihomoDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule-set/mihomo/geosite",
+        "writeMRS": true,
+        "writeYAML": true
+      }
+    },
+    {
+      "type": "mihomoIP",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule-set/mihomo/geoip",
+        "writeMRS": true,
+        "writeYAML": true
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule-set/text/geosite",
+        "format": "prefixed"
+      }
+    },
+    {
+      "type": "textIP",
+      "action": "output",
+      "args": {
+        "outputDir": "./rule-set/text/geoip"
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "direct-list.txt",
+        "wantedList": ["cn"],
+        "format": "v2fly"
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "direct-tld-list.txt",
+        "wantedList": ["cn"],
+        "format": "tld",
+        "excludeRuleTypes": ["domain", "domain_keyword", "domain_regex"]
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "proxy-list.txt",
+        "wantedList": ["geolocation-!cn"],
+        "format": "v2fly"
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "proxy-tld-list.txt",
+        "wantedList": ["geolocation-!cn"],
+        "format": "tld",
+        "excludeRuleTypes": ["domain", "domain_keyword", "domain_regex"]
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "reject-list.txt",
+        "wantedList": ["category-ads-all"],
+        "format": "v2fly",
+        "excludeRuleTypes": ["domain_regex"]
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "reject-tld-list.txt",
+        "wantedList": ["category-ads-all"],
+        "format": "tld"
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "hosts",
+        "wantedList": ["category-ads-all"],
+        "format": "v2fly",
+        "excludeRuleTypes": ["domain_regex"],
+        "addPrefixInLine": "0.0.0.0 "
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "china-list.txt",
+        "wantedList": ["china-list"],
+        "format": "v2fly"
+      }
+    },
+    {
+      "type": "textDomain",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "gfw.txt",
+        "wantedList": ["gfw"],
+        "format": "v2fly"
+      }
+    },
+    {
+      "type": "textAdGuard",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "reject-list-adguard.txt",
+        "wantedList": ["category-ads-all-adguard"]
+      }
+    },
+    {
+      "type": "textAdGuard",
+      "action": "output",
+      "args": {
+        "outputDir": "./publish",
+        "outputName": "awavenue-ads-adguard.txt",
+        "wantedList": ["awavenue-ads"]
+      }
+    }
+  ]
+}

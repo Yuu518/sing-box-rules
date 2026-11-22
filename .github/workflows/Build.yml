@@ -7,46 +7,29 @@ on:
     branches:
       - master
     paths-ignore:
-      - "**/README.md"
-jobs:
-  go:
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{steps.go.outputs.version}}
-    steps:
-      - name: get latest go version
-        id: go
-        run: |
-          echo version=$(curl -s https://raw.githubusercontent.com/actions/go-versions/update-versions-manifest-file/versions-manifest.json | grep -oE '"version": "[0-9]{1}.[0-9]{1,}(.[0-9]{1,})?"' | head -1 | cut -d':' -f2 | sed 's/ //g; s/"//g') >> $GITHUB_OUTPUT
+      - "**/*.md"
+      - ".gitignore"
 
+permissions:
+  contents: write
+
+jobs:
   build:
     runs-on: ubuntu-latest
-    needs: go
     steps:
       - name: Set variables
         run: |
           echo "RELEASE_NAME=$(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M')" >> $GITHUB_ENV
-          echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/pmkol/easymosdns/rules/china_domain_list.txt" >> $GITHUB_ENV
-          echo "CHINA_ADDITIONAL_DOMAINS_URL=https://static-file-global.353355.xyz/rules/cn-additional-list.txt" >> $GITHUB_ENV
-          echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
-          echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
-          echo "CATS_TEAM_ADRULES=https://raw.githubusercontent.com/Cats-Team/AdRules/main/mosdns_adrules.txt" >> $GITHUB_ENV
-          echo "CATS_TEAM_ADRULES_ADGUARD=https://adrules.top/dns.txt" >> $GITHUB_ENV
-          echo "AWAVENUE_ADS_RULES_URL=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Mosdns_v5.txt" >> $GITHUB_ENV
-          echo "AWAVENUE_ADS_RULES_URL_ADGUARD=https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt" >> $GITHUB_ENV
-          echo "CDN_1=https://ruleset.skk.moe/List/domainset/cdn.conf" >> $GITHUB_ENV
-          echo "CDN_2=https://ruleset.skk.moe/List/non_ip/microsoft_cdn.conf" >> $GITHUB_ENV
-          echo "CDN_3=https://ruleset.skk.moe/List/domainset/apple_cdn.conf" >> $GITHUB_ENV
-          echo "CUSTOM_DOWNLOAD=https://ruleset.skk.moe/List/domainset/download.conf" >> $GITHUB_ENV
-          echo "CUSTOM_DIRECT=https://raw.githubusercontent.com/pmkol/easymosdns/rules/cdn_domain_list.txt" >> $GITHUB_ENV
-          echo "CUSTOM_PROXY=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/geolocation-!cn.txt" >> $GITHUB_ENV
-          echo "CUSTOM_GFWLIST=https://raw.githubusercontent.com/pmkol/easymosdns/rules/gfw_domain_list.txt" >> $GITHUB_ENV
         shell: bash
 
-      - name: Checkout the "src" branch of this repo
+      - name: Checkout master branch
+        uses: actions/checkout@v6.0.1
+
+      - name: Checkout src branch
         uses: actions/checkout@v6.0.1
         with:
           ref: src
+          path: src
 
       - name: Checkout v2fly/domain-list-community
         uses: actions/checkout@v6.0.1
@@ -61,177 +44,23 @@ jobs:
           path: geoip
           ref: release
 
-      - name: Checkout rules generate
-        uses: actions/checkout@v6.0.1
-        with:
-          repository: Yuu518/rules-generate
-          path: generate
-
-      - name: setup go
+      - name: Setup Go
         uses: actions/setup-go@v6.1.0
         with:
-          go-version: ${{needs.go.outputs.version}}
-          cache-dependency-path: ./generate/go.sum
+          go-version: stable
+          check-latest: true
+          cache-dependency-path: ./go.sum
 
-      - name: Checkout cokebar/gfwlist2dnsmasq
-        uses: actions/checkout@v6.0.1
-        with:
-          repository: cokebar/gfwlist2dnsmasq
-          path: gfwlist2dnsmasq
+      - name: Build and generate rules
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: |
+          go build -o sing-box-rules .
+          ./sing-box-rules convert -c ./config.json
 
-      - name: Configure AWS CLI for R2
-        run: |
-          mkdir r2
-          aws configure set aws_access_key_id ${{ secrets.R2_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          aws configure set default.region auto
-          aws s3 sync s3://${{ secrets.R2_BUCKET_NAME }}/ ./r2 --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
-
-      - name: Generate GFWList domains
-        run: |
-          cd gfwlist2dnsmasq || exit 1
-          chmod +x ./gfwlist2dnsmasq.sh
-          ./gfwlist2dnsmasq.sh -l -o ./temp-gfwlist.txt
-          
-      - name: Get and add direct domains into temp-direct.txt file
-        run: |
-          # curl -sSL $CHINA_DOMAINS_URL > temp-direct.txt
-          cat ./r2/cn-only > temp-direct.txt
-          curl -sSL $CHINA_ADDITIONAL_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' >> temp-direct.txt
-          
-      - name: Get and add proxy domains into temp-proxy.txt file
-        run: |
-          cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' > temp-proxy.txt
-          curl -L $GOOGLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' >> temp-proxy.txt
-          curl -L $APPLE_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' >> temp-proxy.txt
-          curl -L $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^(domain):([^:]+)(\n$|:@.+)/ && print "$2\n"' >> temp-proxy.txt
-          curl -L $CUSTOM_GFWLIST >> temp-proxy.txt
-          
-      - name: Get and add reject domains file
-        run: |
-          curl -sSL $CATS_TEAM_ADRULES | sed 's/domain://g' >> temp-reject.txt
-          curl -sSL $AWAVENUE_ADS_RULES_URL | sed 's/domain://g' >> temp-reject.txt
-          curl -sSL $CATS_TEAM_ADRULES_ADGUARD | sed '1,8d' >> temp-reject-adguard.txt
-          curl -sSL $AWAVENUE_ADS_RULES_URL_ADGUARD | sed '1,9d' >> temp-reject-adguard.txt
-          curl -sSL $AWAVENUE_ADS_RULES_URL_ADGUARD | sed '1,9d' > awavenue-ads-adguard.txt
-          
-      - name: Reserve `full`, `regexp` and `keyword` type of rules from custom lists to "reserve" files
-        run: |
-          # curl -sSL $CUSTOM_DIRECT > direct-reserve.txt
-          curl -sSL $CUSTOM_PROXY | grep -Ev ":@cn" | perl -ne '/^((full|regexp|keyword):[^:]+)(\n$|:@.+)/ && print "$1\n"' | sort --ignore-case -u > proxy-reserve.txt
-          
-      - name: Add proxy, direct and reject domains from "src" branch to appropriate temp files
-        run: |
-          cat proxy.txt >> temp-proxy.txt
-          cat direct.txt >> temp-direct.txt
-          cat reject.txt >> temp-reject.txt
-          
-      - name: Sort and generate redundant lists
-        run: |
-          cat temp-proxy.txt | sort --ignore-case -u > proxy-list-with-redundant
-          cat temp-direct.txt | sort --ignore-case -u > direct-list-with-redundant
-          cat temp-reject.txt | sort --ignore-case -u > reject-list-without-redundant
-          cat temp-reject-adguard.txt | sort --ignore-case -u > reject-list-without-redundant-adguard
-          
-      - name: Remove redundant domains
-        run: |
-          chmod +x findRedundantDomain.py
-          ./findRedundantDomain.py ./direct-list-with-redundant ./direct-list-deleted-unsort
-          ./findRedundantDomain.py ./proxy-list-with-redundant ./proxy-list-deleted-unsort
-          [ ! -f "direct-list-deleted-unsort" ] && touch direct-list-deleted-unsort
-          [ ! -f "proxy-list-deleted-unsort" ] && touch proxy-list-deleted-unsort
-          sort ./direct-list-deleted-unsort > ./direct-list-deleted-sort
-          sort ./proxy-list-deleted-unsort > ./proxy-list-deleted-sort
-          diff ./direct-list-deleted-sort ./direct-list-with-redundant | awk '/^>/{print $2}' > ./direct-list-without-redundant
-          diff ./proxy-list-deleted-sort ./proxy-list-with-redundant | awk '/^>/{print $2}' > ./proxy-list-without-redundant         
-      
-      - name: Remove domains from "need-to-remove" lists in "src" branch
-        run: |
-          chmod +x removefrom.py
-          ./removefrom.py -remove ./direct-need-to-remove.txt -from ./direct-list-without-redundant -out ./temp-cn.txt
-          ./removefrom.py -remove ./proxy-need-to-remove.txt -from ./proxy-list-without-redundant -out ./temp-geolocation-\!cn.txt
-          ./removefrom.py -remove ./reject-need-to-remove.txt -from ./reject-list-without-redundant -out ./temp-category-ads-all.txt
-          ./removefrom.py -remove ./reject-need-to-remove-adguard.txt -from ./reject-list-without-redundant-adguard -out ./temp-category-ads-all-adguard.txt
-          
-      - name: Remove domains end with ".cn" in "temp-geolocation-!cn.txt" and write lists to data directory
-        run: |
-          cat temp-cn.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' > ./community/data/cn
-          cat temp-cn.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > direct-tld-list.txt
-          cat temp-geolocation-\!cn.txt | sort --ignore-case -u | perl -ne '/^((?=^.{1,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})*)/ && print "$1\n"' | perl -ne 'print if not /\.cn$/' > ./community/data/geolocation-\!cn
-          cat temp-geolocation-\!cn.txt | sort --ignore-case -u | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > proxy-tld-list.txt
-          cat temp-category-ads-all.txt > ./community/data/category-ads-all
-          cat temp-category-ads-all.txt | perl -ne 'print if not /^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/' > reject-tld-list.txt
-          cat temp-category-ads-all-adguard.txt > reject-list-adguard.txt
-          
-      - name: Add `full`, `regexp` and `keyword` type of rules back into "cn", "geolocation-!cn" and "category-ads-all" list
-        run: |
-          # [ -f "direct-reserve.txt" ] && cat direct-reserve.txt >> ./community/data/cn
-          [ -f "proxy-reserve.txt" ] && cat proxy-reserve.txt >> ./community/data/geolocation-\!cn
-          cp ./community/data/cn direct-list.txt
-          cp ./community/data/geolocation-\!cn proxy-list.txt
-          cat ./community/data/category-ads-all | sed '/^regexp:/d' > reject-list.txt
-          awk '{print "0.0.0.0 " $0}' reject-list.txt > hosts
-          
-      - name: Create `china-list`、`gfw` lists
-        run: |
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > ./community/data/china-list
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne 'print if /\S/ && !/^\s*#/' > china-list.txt
-          cat ./gfwlist2dnsmasq/temp-gfwlist.txt | perl -ne '/^((?=^.{3,255})[a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+)/ && print "$1\n"' >> ./community/data/gfw
-          cat ./community/data/gfw | sort --ignore-case -u > gfw.txt
-
-      - name: Get and add cdn and download domains file
-        run: |
-          curl -sSL $CDN_1 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > ./community/data/category-cdn-\!cn
-          curl -sSL $CDN_2 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed -n -E 's/^DOMAIN,/full:/p; s/^DOMAIN-SUFFIX,//p' >> ./community/data/category-cdn-\!cn
-          curl -sSL $CDN_3 | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' >> ./community/data/category-cdn-\!cn
-          curl -sSL $CUSTOM_DOWNLOAD | grep -v '^#' | sed '/^[[:space:]]*$/d' | sed '1d' | sed 's/^\.//' > ./community/data/download-\!cn
-      
-      - name: Add Custome Rule
-        run: |
-          cp -f ./r2/* ./community/data
-
-          echo "pikpak.site" >> ./community/data/pikpak
-          echo "include:pikpak" >> ./community/data/download-\!cn
-
-      - name: Build sing-box rule-set files
-        run: |
-          mkdir -p rule_set/rule_set_site && mkdir -p rule_set/rule_set_ip
-          cd generate || exit 1
-          go run ./ domain -d ../community/data -o ../rule_set/rule_set_site -f singbox
-          go run ./ ip -d ../geoip/text -o ../rule_set/rule_set_ip -f singbox
-
-      - name: Add AdGuard DNS Filter
-        run: |
-          cd generate || exit 1
-          go run ./ adguard -d ../awavenue-ads-adguard.txt -o ../rule_set/rule_set_site/awavenue-ads.srs
-          go run ./ adguard -d ../reject-list-adguard.txt -o ../rule_set/rule_set_site/category-ads-all-adguard.srs
-
-      - name: Build Surge, Loon and mihomo rule-set files
-        run: |
-          mkdir -p rule-set/surge/geosite && mkdir -p rule-set/surge/geoip
-          mkdir -p rule-set/mihomo/geosite && mkdir -p rule-set/mihomo/geoip
-          mkdir -p rule-set/text/geosite && mkdir -p rule-set/text/geoip
-          cd generate || exit 1
-
-          go run ./ domain -d ../community/data -o ../rule-set/surge/geosite -f surge
-          go run ./ ip -d ../geoip/text -o ../rule-set/surge/geoip -f surge
-
-          go run ./ domain -d ../community/data -o ../rule-set/mihomo/geosite -f mihomo
-          go run ./ ip -d ../geoip/text -o ../rule-set/mihomo/geoip -f mihomo
-
-          go run ./ domain -d ../community/data -o ../rule-set/text/geosite -f text
-          go run ./ ip -d ../geoip/text -o ../rule-set/text/geoip -f text
-
-      - name: Move files
-        run: |
-          mkdir -p ./publish
-          install -p {proxy,direct,reject}-tld-list.txt ./publish/
-          install -p {proxy,direct,reject}-list.txt ./publish/
-          install -p {china-list,gfw}.txt ./publish/
-          install -p hosts ./publish/hosts
-          install -p reject-list-adguard.txt ./publish/
-          install -p awavenue-ads-adguard.txt ./publish/
-          
       - name: Git push assets to "release" branch
         run: |
           cd publish || exit 1
@@ -246,29 +75,27 @@ jobs:
 
       - name: Git push assets to "rule_set" branch
         run: |
-            cd rule_set || exit 1
-            ls
-            git init
-            git config --local user.name "github-actions[bot]"
-            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git checkout -b rule_set
-            git add .
-            git commit -m "Released on ${RELEASE_NAME}"
-            git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-            git push -f -u origin rule_set
+          cd rule_set || exit 1
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b rule_set
+          git add .
+          git commit -m "Released on ${RELEASE_NAME}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u origin rule_set
 
       - name: Git push assets to "rule-set" branch of Yuu518/Yuu-rules
         run: |
-            cd rule-set || exit 1
-            ls
-            git init
-            git config --local user.name "github-actions[bot]"
-            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git checkout -b rule-set
-            git add .
-            git commit -m "Released on ${RELEASE_NAME}"
-            git remote add origin "https://x-access-token:${{ secrets.RULES_REPO_TOKEN }}@github.com/Yuu518/Yuu-rules"
-            git push -f -u origin rule-set
+          cd rule-set || exit 1
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b rule-set
+          git add .
+          git commit -m "Released on ${RELEASE_NAME}"
+          git remote add origin "https://x-access-token:${{ secrets.RULES_REPO_TOKEN }}@github.com/Yuu518/Yuu-rules"
+          git push -f -u origin rule-set
 
       - name: Delete Workflow Runs
         uses: Mattraks/delete-workflow-runs@v2.0.6

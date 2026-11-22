@@ -1,0 +1,31 @@
+name: Run tests
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**/*.md"
+      - ".gitignore"
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "**/*.md"
+      - ".gitignore"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v6.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@v6.1.0
+        with:
+          go-version: stable
+          check-latest: true
+          cache-dependency-path: ./go.sum
+
+      - name: Run unit tests
+        run: go test -v ./...
