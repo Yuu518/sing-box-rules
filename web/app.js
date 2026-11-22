@@ -4,8 +4,10 @@ const state = {
   entryByName: new Map(),
   shardCache: new Map(),
   specialData: null,
-  ipv4Data: null,
-  ipv6Data: null,
+  ipv4Index: null,
+  ipv6Index: null,
+  ipv4Cache: new Map(),
+  ipv6Cache: new Map(),
   defaultClient: "singbox",
   themeMode: "system",
   browseAll: false,
@@ -376,14 +378,28 @@ async function getSpecial() {
   return state.specialData;
 }
 
-async function getIPv4() {
-  if (!state.ipv4Data) state.ipv4Data = fetchJSON("./data/ip_v4.json");
-  return state.ipv4Data;
+async function getIPv4Index() {
+  if (!state.ipv4Index) state.ipv4Index = fetchJSON("./data/ip4/index.json");
+  return state.ipv4Index;
 }
 
-async function getIPv6() {
-  if (!state.ipv6Data) state.ipv6Data = fetchJSON("./data/ip_v6.json");
-  return state.ipv6Data;
+async function getIPv4Chunk(file) {
+  if (state.ipv4Cache.has(file)) return state.ipv4Cache.get(file);
+  const promise = fetchJSON(`./data/ip4/${file}`);
+  state.ipv4Cache.set(file, promise);
+  return promise;
+}
+
+async function getIPv6Index() {
+  if (!state.ipv6Index) state.ipv6Index = fetchJSON("./data/ip6/index.json");
+  return state.ipv6Index;
+}
+
+async function getIPv6Chunk(file) {
+  if (state.ipv6Cache.has(file)) return state.ipv6Cache.get(file);
+  const promise = fetchJSON(`./data/ip6/${file}`);
+  state.ipv6Cache.set(file, promise);
+  return promise;
 }
 
 async function lookupDomain(domain) {
@@ -452,15 +468,28 @@ async function lookupDomain(domain) {
 }
 
 async function lookupIPv4(range) {
-  const rows = await getIPv4();
+  const index = await getIPv4Index();
+  const files = [];
+  for (let i = 0; i < index.length; i++) {
+    const [minStart, maxEnd, file] = index[i];
+    if (minStart > range.end) break;
+    if (maxEnd >= range.start) files.push(file);
+  }
+  const chunks = await Promise.all(files.map((f) => getIPv4Chunk(f)));
+
   const hits = new Map();
-  for (let i = 0; i < rows.length; i++) {
-    const [start, end, cidr, ids] = rows[i];
-    if (start > range.end) break;
-    if (end >= range.start) {
-      for (const id of ids) {
-        if (!hits.has(id)) hits.set(id, []);
-        hits.get(id).push({ kind: "ip_cidr", rule: cidr });
+  for (const rows of chunks) {
+    for (let i = 0; i < rows.length; i++) {
+      const [start, end, cidr, ids] = rows[i];
+      if (start > range.end) break;
+      if (end >= range.start) {
+        for (const id of ids) {
+          if (!hits.has(id)) hits.set(id, []);
+          const list = hits.get(id);
+          if (!list.some((r) => r.rule === cidr)) {
+            list.push({ kind: "ip_cidr", rule: cidr });
+          }
+        }
       }
     }
   }
@@ -471,15 +500,28 @@ async function lookupIPv4(range) {
 }
 
 async function lookupIPv6(range) {
-  const rows = await getIPv6();
+  const index = await getIPv6Index();
+  const files = [];
+  for (let i = 0; i < index.length; i++) {
+    const [minStart, maxEnd, file] = index[i];
+    if (minStart > range.end) break;
+    if (maxEnd >= range.start) files.push(file);
+  }
+  const chunks = await Promise.all(files.map((f) => getIPv6Chunk(f)));
+
   const hits = new Map();
-  for (let i = 0; i < rows.length; i++) {
-    const [start, end, cidr, ids] = rows[i];
-    if (start > range.end) break;
-    if (end >= range.start) {
-      for (const id of ids) {
-        if (!hits.has(id)) hits.set(id, []);
-        hits.get(id).push({ kind: "ip_cidr", rule: cidr });
+  for (const rows of chunks) {
+    for (let i = 0; i < rows.length; i++) {
+      const [start, end, cidr, ids] = rows[i];
+      if (start > range.end) break;
+      if (end >= range.start) {
+        for (const id of ids) {
+          if (!hits.has(id)) hits.set(id, []);
+          const list = hits.get(id);
+          if (!list.some((r) => r.rule === cidr)) {
+            list.push({ kind: "ip_cidr", rule: cidr });
+          }
+        }
       }
     }
   }

@@ -96,28 +96,50 @@ func TestBuildIndex(t *testing.T) {
 		t.Fatalf("expected youtube.com in shard %d, got %+v", shardIdx, sd.Suffix)
 	}
 
-	rawV4, err := os.ReadFile(filepath.Join(outDir, "data", "ip_v4.json"))
+	rawV4Idx, err := os.ReadFile(filepath.Join(outDir, "data", "ip4", "index.json"))
 	if err != nil {
-		t.Fatalf("read ip_v4.json: %v", err)
+		t.Fatalf("read ip4/index.json: %v", err)
+	}
+	var v4Idx [][]any
+	if err := json.Unmarshal(rawV4Idx, &v4Idx); err != nil {
+		t.Fatalf("unmarshal ip4/index.json: %v", err)
+	}
+	if len(v4Idx) != 1 || v4Idx[0][2] != "00.json" {
+		t.Fatalf("unexpected ip4/index.json: %+v", v4Idx)
+	}
+	rawV4, err := os.ReadFile(filepath.Join(outDir, "data", "ip4", "00.json"))
+	if err != nil {
+		t.Fatalf("read ip4/00.json: %v", err)
 	}
 	var v4 [][]any
 	if err := json.Unmarshal(rawV4, &v4); err != nil {
-		t.Fatalf("unmarshal ip_v4.json: %v", err)
+		t.Fatalf("unmarshal ip4/00.json: %v", err)
 	}
 	if len(v4) != 1 || v4[0][2] != "1.0.1.0/24" {
-		t.Fatalf("unexpected ip_v4.json: %+v", v4)
+		t.Fatalf("unexpected ip4/00.json: %+v", v4)
 	}
 
-	rawV6, err := os.ReadFile(filepath.Join(outDir, "data", "ip_v6.json"))
+	rawV6Idx, err := os.ReadFile(filepath.Join(outDir, "data", "ip6", "index.json"))
 	if err != nil {
-		t.Fatalf("read ip_v6.json: %v", err)
+		t.Fatalf("read ip6/index.json: %v", err)
+	}
+	var v6Idx [][]any
+	if err := json.Unmarshal(rawV6Idx, &v6Idx); err != nil {
+		t.Fatalf("unmarshal ip6/index.json: %v", err)
+	}
+	if len(v6Idx) != 1 || v6Idx[0][2] != "00.json" {
+		t.Fatalf("unexpected ip6/index.json: %+v", v6Idx)
+	}
+	rawV6, err := os.ReadFile(filepath.Join(outDir, "data", "ip6", "00.json"))
+	if err != nil {
+		t.Fatalf("read ip6/00.json: %v", err)
 	}
 	var v6 [][]any
 	if err := json.Unmarshal(rawV6, &v6); err != nil {
-		t.Fatalf("unmarshal ip_v6.json: %v", err)
+		t.Fatalf("unmarshal ip6/00.json: %v", err)
 	}
 	if len(v6) != 1 || v6[0][0] != "2001067c04e800000000000000000000" || v6[0][1] != "2001067c04e8ffffffffffffffffffff" {
-		t.Fatalf("unexpected ip_v6.json: %+v", v6)
+		t.Fatalf("unexpected ip6/00.json: %+v", v6)
 	}
 }
 

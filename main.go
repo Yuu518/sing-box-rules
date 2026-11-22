@@ -242,11 +242,15 @@ func buildIndex(opts buildOptions) error {
 
 	dataDir := filepath.Join(opts.OutDir, "data")
 	shardsDir := filepath.Join(dataDir, "shards")
+	ip4Dir := filepath.Join(dataDir, "ip4")
+	ip6Dir := filepath.Join(dataDir, "ip6")
 	if err := os.RemoveAll(dataDir); err != nil {
 		return err
 	}
-	if err := os.MkdirAll(shardsDir, 0755); err != nil {
-		return err
+	for _, dir := range []string{shardsDir, ip4Dir, ip6Dir} {
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			return err
+		}
 	}
 
 	if opts.WebDir != "" {
@@ -413,11 +417,28 @@ func buildIndex(opts buildOptions) error {
 		}
 		return strings.Compare(a.cidr, b.cidr)
 	})
-	v4Out := make([][]any, 0, len(v4List))
-	for _, item := range v4List {
-		v4Out = append(v4Out, []any{item.start, item.end, item.cidr, item.ids})
+	const ipChunkSize = 25000
+
+	v4Index := make([][]any, 0, (len(v4List)+ipChunkSize-1)/ipChunkSize)
+	for i := 0; i < len(v4List); i += ipChunkSize {
+		endIdx := min(i+ipChunkSize, len(v4List))
+		chunk := v4List[i:endIdx]
+		rows := make([][]any, 0, len(chunk))
+		minStart := chunk[0].start
+		maxEnd := chunk[0].end
+		for _, item := range chunk {
+			if item.end > maxEnd {
+				maxEnd = item.end
+			}
+			rows = append(rows, []any{item.start, item.end, item.cidr, item.ids})
+		}
+		file := fmt.Sprintf("%02d.json", len(v4Index))
+		if err := writeJSONFile(filepath.Join(ip4Dir, file), rows); err != nil {
+			return err
+		}
+		v4Index = append(v4Index, []any{minStart, maxEnd, file})
 	}
-	if err := writeJSONFile(filepath.Join(dataDir, "ip_v4.json"), v4Out); err != nil {
+	if err := writeJSONFile(filepath.Join(ip4Dir, "index.json"), v4Index); err != nil {
 		return err
 	}
 
@@ -434,11 +455,26 @@ func buildIndex(opts buildOptions) error {
 		}
 		return strings.Compare(a.cidr, b.cidr)
 	})
-	v6Out := make([][]any, 0, len(v6List))
-	for _, item := range v6List {
-		v6Out = append(v6Out, []any{item.start, item.end, item.cidr, item.ids})
+	v6Index := make([][]any, 0, (len(v6List)+ipChunkSize-1)/ipChunkSize)
+	for i := 0; i < len(v6List); i += ipChunkSize {
+		endIdx := min(i+ipChunkSize, len(v6List))
+		chunk := v6List[i:endIdx]
+		rows := make([][]any, 0, len(chunk))
+		minStart := chunk[0].start
+		maxEnd := chunk[0].end
+		for _, item := range chunk {
+			if item.end > maxEnd {
+				maxEnd = item.end
+			}
+			rows = append(rows, []any{item.start, item.end, item.cidr, item.ids})
+		}
+		file := fmt.Sprintf("%02d.json", len(v6Index))
+		if err := writeJSONFile(filepath.Join(ip6Dir, file), rows); err != nil {
+			return err
+		}
+		v6Index = append(v6Index, []any{minStart, maxEnd, file})
 	}
-	if err := writeJSONFile(filepath.Join(dataDir, "ip_v6.json"), v6Out); err != nil {
+	if err := writeJSONFile(filepath.Join(ip6Dir, "index.json"), v6Index); err != nil {
 		return err
 	}
 
