@@ -12,6 +12,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -104,3 +106,48 @@ jobs:
           repository: ${{ github.repository }}
           retain_days: 1
           keep_minimum_runs: 1
+
+  deploy-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout web branch
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: web
+
+      - name: Checkout rule_set branch
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: rule_set
+          path: rule_set
+
+      - name: Checkout release branch
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: release
+          path: release
+
+      - name: Setup Go
+        uses: actions/setup-go@v6.1.0
+        with:
+          go-version: stable
+          check-latest: true
+
+      - name: Build static web panel and lookup index
+        run: go run . -rule-set ./rule_set -release ./release -web ./web -out ./dist
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
