@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sing-box-rules</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="is-idle">
+  <div class="ambient-scene" aria-hidden="true">
+    <span class="light-field field-a"></span>
+    <span class="light-field field-b"></span>
+    <span class="light-field field-c"></span>
+    <span class="light-field field-d"></span>
+    <span class="light-field field-e"></span>
+    <span class="light-field field-f"></span>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button id="brandResetBtn" class="brand" type="button" aria-label="返回初始搜索界面">
+        <span class="brand-lens" aria-hidden="true"></span>
+        <span class="brand-name">sing-box-rules</span>
+      </button>
+      <div class="theme-switcher" role="radiogroup" aria-label="主题模式">
+        <button class="theme-btn" type="button" role="radio" aria-checked="false" data-theme-mode="system" title="跟随系统">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2.5" width="12" height="8.5" rx="1.6"></rect>
+            <path d="M5.5 13.5h5M8 11v2.5"></path>
+          </svg>
+          <span>系统</span>
+        </button>
+        <button class="theme-btn" type="button" role="radio" aria-checked="false" data-theme-mode="light" title="浅色模式">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="8" cy="8" r="3"></circle>
+            <path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M12.6 3.4l-1.1 1.1M4.5 11.5l-1.1 1.1"></path>
+          </svg>
+          <span>浅色</span>
+        </button>
+        <button class="theme-btn" type="button" role="radio" aria-checked="false" data-theme-mode="dark" title="深色模式">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 9.7A5.3 5.3 0 0 1 6.3 3a5.5 5.5 0 1 0 6.7 6.7Z"></path>
+          </svg>
+          <span>深色</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="spotlight" aria-label="规则搜索">
+      <div class="spotlight-head">
+        <h1 class="spotlight-title">规则查询</h1>
+        <p id="summaryLine" class="spotlight-meta">正在加载索引…</p>
+      </div>
+
+      <div class="search-capsule" id="searchCapsule">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="9" r="5.8"></circle>
+            <path d="m13.4 13.4 3.4 3.4"></path>
+          </svg>
+        </span>
+        <span class="mode-badge hidden" id="queryModeTag"></span>
+        <input
+          id="queryInput"
+          class="search-input"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          autofocus
+          placeholder="搜索域名、IP / CIDR 或规则集名称…"
+          aria-label="搜索域名、IP 或规则集名称"
+        >
+        <button id="clearQueryBtn" class="clear-btn hidden" type="button" aria-label="清空输入">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M4.5 4.5 11.5 11.5M11.5 4.5l-7 7"></path>
+          </svg>
+        </button>
+        <kbd id="kbdHint" class="kbd-hint" aria-hidden="true">/</kbd>
+      </div>
+
+      <div class="suggestions-bar" id="suggestionsBar">
+        <button class="suggestion-chip suggestion-all" type="button" id="browseAllBtn">浏览全部</button>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="results-section hidden" aria-live="polite">
+      <div class="results-bar">
+        <div class="results-summary">
+          <h2 id="resultsHeading" class="results-heading"></h2>
+          <span id="resultsMeta" class="results-meta"></span>
+        </div>
+        <div id="resultsTools" class="results-tools hidden">
+          <div class="filter-pills" role="tablist" aria-label="规则类型筛选">
+            <button class="filter-pill active" type="button" role="tab" aria-selected="true" data-filter="all">全部</button>
+            <button class="filter-pill" type="button" role="tab" aria-selected="false" data-filter="domain">域名</button>
+            <button class="filter-pill" type="button" role="tab" aria-selected="false" data-filter="ip">IP</button>
+            <button class="filter-pill" type="button" role="tab" aria-selected="false" data-filter="adguard">AdGuard</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="resultsGrid" class="cards-grid"></div>
+
+      <div id="resultsFooter" class="results-footer hidden">
+        <button id="loadMoreBtn" class="glass-pill-btn" type="button">显示更多结果</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="drawerBackdrop" class="drawer-backdrop"></div>
+  <aside id="detailDrawer" class="drawer" aria-hidden="true" aria-labelledby="drawerTitle">
+    <div class="drawer-head">
+      <div class="drawer-title-wrap">
+        <h2 id="drawerTitle" class="drawer-title"></h2>
+        <div id="drawerMeta" class="meta-tags"></div>
+      </div>
+      <button id="closeDrawerBtn" class="icon-close-btn" type="button" aria-label="关闭详情">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+          <path d="M4 4l8 8M12 4l-8 8"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <section class="drawer-section">
+        <div class="section-inline-head">
+          <h3>配置片段</h3>
+          <div class="snippet-controls">
+            <div class="segmented-mini" role="tablist">
+              <button class="seg-btn active" type="button" data-snippet="singbox">sing-box</button>
+              <button class="seg-btn" type="button" data-snippet="mihomo">mihomo</button>
+              <button class="seg-btn" type="button" data-snippet="surge">Surge</button>
+            </div>
+            <div class="segmented-mini" role="tablist" aria-label="链接来源">
+              <button class="seg-btn active" type="button" data-snippet-source="direct">直链</button>
+              <button class="seg-btn" type="button" data-snippet-source="mirror">镜像</button>
+            </div>
+          </div>
+        </div>
+        <div class="code-surface">
+          <pre><code id="snippetCode"></code></pre>
+          <button id="copySnippetBtn" class="copy-float-btn" type="button">复制片段</button>
+        </div>
+      </section>
+
+      <section class="drawer-section">
+        <div class="section-inline-head">
+          <h3>规则明细</h3>
+          <div class="preview-controls">
+            <select id="previewKindSelect" class="glass-select hidden" aria-label="预览类型"></select>
+            <input id="previewSearchInput" class="glass-input-sm" type="search" placeholder="筛选条目…" aria-label="筛选规则条目">
+          </div>
+        </div>
+        <div id="previewStatus" class="preview-status"></div>
+        <div id="previewList" class="preview-list"></div>
+        <div id="previewPager" class="preview-pager hidden">
+          <button id="previewMoreBtn" class="glass-pill-btn" type="button">加载更多条目</button>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
