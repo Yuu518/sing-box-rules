@@ -6,7 +6,7 @@
 
 - `web/`：前端静态资源（`index.html`、`styles.css`、`app.js`）
 - `main.go`：无第三方依赖的索引构建器与本地预览服务
-- `.github/workflows/Pages.yml`：推送 `web` 分支或手动触发时构建并直接上传部署至 Cloudflare Pages
+- `.github/workflows/CloudflarePages.yml`：推送 `web` 分支或手动触发时构建并直接上传部署至 Cloudflare Pages
 
 ## 本地构建与预览
 
