@@ -97,14 +97,6 @@ jobs:
           git remote add origin "https://x-access-token:${{ secrets.RULES_REPO_TOKEN }}@github.com/Yuu518/Yuu-rules"
           git push -f -u origin rule-set
 
-      - name: Delete Workflow Runs
-        uses: Mattraks/delete-workflow-runs@v2.0.6
-        with:
-          token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          retain_days: 1
-          keep_minimum_runs: 1
-
   deploy-pages:
     needs: build
     runs-on: ubuntu-latest
@@ -144,3 +136,15 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.R2_ACCOUNT_ID }}
           command: pages deploy ./dist --project-name=${{ secrets.CF_PAGES_PROJECT || vars.CF_PAGES_PROJECT || 'sing-box-rules' }} --branch=main --commit-dirty=true
+
+  delete-workflow-runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Workflow Runs
+        uses: Mattraks/delete-workflow-runs@v2.0.6
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: 1
+
