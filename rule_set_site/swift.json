@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "appleswift.com",
+        "swift.org",
+        "swiftui.cn",
+        "swiftui.com.cn"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "imagecurl.com",
+        "imagecurl.org",
+        "imgcrl.org"
+      ]
+    }
+  ]
+}

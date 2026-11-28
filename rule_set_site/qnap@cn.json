@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "mycloudnas.com",
+        "myqnapcloud.cn",
+        "qlinkto.cn",
+        "qnap.com.cn"
+      ]
+    }
+  ]
+}

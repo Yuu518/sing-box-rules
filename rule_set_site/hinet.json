@@ -1,0 +1,19 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "cht.com.tw",
+        "chtf.org.tw",
+        "eca.hinet.net",
+        "emome.net",
+        "gtlsca.nat.gov.tw",
+        "hinet.net",
+        "pki.hinet.net",
+        "publicca.hinet.net",
+        "tls.hinet.net",
+        "xuite.net"
+      ]
+    }
+  ]
+}

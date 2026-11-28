@@ -1,0 +1,12 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ptt.cc",
+        "ptt2.cc",
+        "ptt3.cc"
+      ]
+    }
+  ]
+}

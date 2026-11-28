@@ -1,0 +1,28 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "aki-game.net",
+        "aki-game2.net",
+        "gryphline.cn",
+        "gryphline.com",
+        "gryphline.com.cn",
+        "gryphline.net",
+        "hg-cdn.com",
+        "iq.com",
+        "kurogame-service.com",
+        "kurogame.net",
+        "kurogames.net",
+        "levelinfinite.com",
+        "nikke-en.com",
+        "skport.com",
+        "taptap.io",
+        "tencentgames.com",
+        "webnovel.com",
+        "youku.tv",
+        "youkuplay.com"
+      ]
+    }
+  ]
+}

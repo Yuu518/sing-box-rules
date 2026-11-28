@@ -1,0 +1,9 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain": "public-us-pingsx.api.clonoth.com",
+      "domain_suffix": "ping.sx"
+    }
+  ]
+}

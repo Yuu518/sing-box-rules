@@ -1,0 +1,19 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "hk.weibo.com",
+        "my.weibo.com",
+        "overseas.weibo.com",
+        "rednote.com",
+        "rednote.com.my",
+        "rednotecdn.com",
+        "sg.weibo.com",
+        "th.weibo.com",
+        "tw.weibo.com",
+        "us.weibo.com"
+      ]
+    }
+  ]
+}

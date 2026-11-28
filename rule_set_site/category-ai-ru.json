@@ -1,0 +1,22 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "aiesa.ru",
+        "alice.yandex.net",
+        "alice.yandex.ru",
+        "alicepro.yandex.ru",
+        "copymonkey.app",
+        "devmachine.ai",
+        "gerwin.io",
+        "giga.chat",
+        "gptunnel.ru",
+        "polza.ai",
+        "robotext.io",
+        "rugpt.io",
+        "tokenator.top"
+      ]
+    }
+  ]
+}

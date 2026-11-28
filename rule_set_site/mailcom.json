@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "mail.com",
+        "ui-portal.de",
+        "uicdn.com",
+        "uimserv.net"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "arcraiders.com",
+        "embark-studios.com",
+        "embark.games",
+        "reachthefinals.com"
+      ]
+    }
+  ]
+}

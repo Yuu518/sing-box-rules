@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "fbmessenger.com",
+        "m.me",
+        "messenger.com",
+        "nbabot.net"
+      ]
+    }
+  ]
+}

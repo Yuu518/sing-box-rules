@@ -1,0 +1,26 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "01.org",
+        "acpica.com",
+        "clearlinux.org",
+        "hyperscan.io",
+        "intellinuxgraphics.com",
+        "intellinuxgraphics.net",
+        "oneapi.com",
+        "oneapi.io",
+        "opencas.io",
+        "opendroneid.org",
+        "openvino.ai",
+        "openvinotoolkit.org",
+        "ospray.net",
+        "ospray.org",
+        "renderingtoolkit.org",
+        "snap-telemetry.io",
+        "universalscalablefirmware.org"
+      ]
+    }
+  ]
+}

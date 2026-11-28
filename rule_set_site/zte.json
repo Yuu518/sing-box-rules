@@ -1,0 +1,16 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "nubia.cn",
+        "nubia.com",
+        "redmagic.com",
+        "zte.com.cn",
+        "ztedevices.com",
+        "ztemall.com",
+        "ztems.com"
+      ]
+    }
+  ]
+}

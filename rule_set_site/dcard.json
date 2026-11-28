@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "dcard.cc",
+        "dcard.io",
+        "dcard.link",
+        "dcard.tw"
+      ]
+    }
+  ]
+}

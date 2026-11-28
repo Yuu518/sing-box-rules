@@ -1,0 +1,17 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "beacon.sina.com.cn",
+        "crash2.zhihu.com",
+        "log.sina.cn",
+        "log2.sina.cn",
+        "sbeacon.sina.com.cn",
+        "slog.sina.cn",
+        "slog.sina.com.cn",
+        "zhihu-web-analytics.zhihu.com"
+      ]
+    }
+  ]
+}

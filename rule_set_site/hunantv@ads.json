@@ -1,0 +1,15 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "click.hunantv.com",
+        "da.hunantv.com",
+        "da.mgtv.com",
+        "log.hunantv.com",
+        "log.v2.hunantv.com",
+        "res.hunantv.com"
+      ]
+    }
+  ]
+}

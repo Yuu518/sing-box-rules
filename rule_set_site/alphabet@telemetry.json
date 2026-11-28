@@ -1,0 +1,14 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain": [
+        "crashlyticsreports-pa.googleapis.com",
+        "firebase-settings.crashlytics.com",
+        "firebaselogging-pa.googleapis.com",
+        "firebaselogging.googleapis.com",
+        "update.crashlytics.com"
+      ]
+    }
+  ]
+}

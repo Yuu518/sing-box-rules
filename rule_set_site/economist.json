@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "economist.com",
+        "economistgroup.com",
+        "economistgroupcareers.com",
+        "eiu.com"
+      ]
+    }
+  ]
+}

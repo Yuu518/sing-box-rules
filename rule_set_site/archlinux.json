@@ -1,0 +1,15 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "archlinux.de",
+        "archlinux.org",
+        "archlinux.page",
+        "archlinuxarm.org",
+        "archlinuxcn.org",
+        "pkgbuild.com"
+      ]
+    }
+  ]
+}

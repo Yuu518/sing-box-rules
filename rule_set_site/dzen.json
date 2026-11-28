@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "dzen.ru",
+        "dzeninfra.ru",
+        "log.dzen.ru",
+        "ms.dzen.ru"
+      ]
+    }
+  ]
+}

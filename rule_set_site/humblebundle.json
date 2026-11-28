@@ -1,0 +1,9 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain": "hb.imgix.net",
+      "domain_suffix": "humblebundle.com"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "adivery.com",
+        "adivery.ir",
+        "kaprila.com",
+        "najva.com",
+        "sabavision.com",
+        "tapsell.ir",
+        "yektanet.com"
+      ]
+    }
+  ]
+}

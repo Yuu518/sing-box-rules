@@ -1,0 +1,14 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "kodik-storage.com",
+        "kodik.biz",
+        "kodik.cc",
+        "kodik.info",
+        "kodikplayer.com"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "ruby-lang.org",
+        "rubygems.org"
+      ]
+    }
+  ]
+}

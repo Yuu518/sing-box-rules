@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain": "sentry.ppy.sh",
+      "domain_suffix": [
+        "insights-collector.gog.com",
+        "log-upload-os.hoyoverse.com",
+        "log-upload.mihoyo.com"
+      ]
+    }
+  ]
+}

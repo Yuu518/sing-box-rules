@@ -1,0 +1,14 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "eca.hinet.net",
+        "gtlsca.nat.gov.tw",
+        "pki.hinet.net",
+        "publicca.hinet.net",
+        "tls.hinet.net"
+      ]
+    }
+  ]
+}

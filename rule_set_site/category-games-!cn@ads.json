@@ -1,0 +1,11 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "insights-collector.gog.com",
+        "log-upload-os.hoyoverse.com"
+      ]
+    }
+  ]
+}

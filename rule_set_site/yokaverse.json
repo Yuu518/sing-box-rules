@@ -1,0 +1,16 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "dobest.com",
+        "langrenclub.com",
+        "sanguosha.com",
+        "xhlsgs.com",
+        "xinwuji.com",
+        "yokaverse.com",
+        "zhuoyou.com"
+      ]
+    }
+  ]
+}

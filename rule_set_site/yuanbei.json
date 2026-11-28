@@ -1,0 +1,14 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "i2oo.cn",
+        "laoban100.com",
+        "shengyi.ai",
+        "shengyizhuanjia.com",
+        "yuanbei.biz"
+      ]
+    }
+  ]
+}

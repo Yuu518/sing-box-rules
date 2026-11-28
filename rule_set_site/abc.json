@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "abc-studios.com",
+        "abc.com",
+        "abcnews.com",
+        "edgedatg.com"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "cam.ac.uk",
+        "cambridge.org",
+        "cambridgedigital.net",
+        "cambridgemaths.org",
+        "cambridgeschoolshakespeare.com",
+        "ccdc.cam.ac.uk",
+        "dlib.eastview.com"
+      ]
+    }
+  ]
+}

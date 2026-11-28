@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "webflow-ext.com",
+        "webflow.com",
+        "webflow.io",
+        "website-files.com"
+      ]
+    }
+  ]
+}

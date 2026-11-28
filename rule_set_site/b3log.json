@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "b3log.org",
+        "b3logfile.com",
+        "hacpai.com",
+        "ld246.com"
+      ]
+    }
+  ]
+}

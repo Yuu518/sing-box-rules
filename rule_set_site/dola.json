@@ -1,0 +1,13 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "cici.com",
+        "ciciai.com",
+        "ciciaicdn.com",
+        "dola.com"
+      ]
+    }
+  ]
+}

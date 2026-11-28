@@ -1,0 +1,42 @@
+{
+  "version": 4,
+  "rules": [
+    {
+      "domain_suffix": [
+        "cityu.edu.hk",
+        "cityu.hk",
+        "cpce-polyu.edu.hk",
+        "cuhk.edu.hk",
+        "cuhk.hk",
+        "edu.hk",
+        "eduhk.edu.hk",
+        "eduhk.hk",
+        "hkbu.edu.hk",
+        "hkbu.hk",
+        "hkcc-polyu.edu.hk",
+        "hku.edu.hk",
+        "hku.hk",
+        "hkust.edu.hk",
+        "hkust.hk",
+        "polyu.edu.hk",
+        "polyu.hk",
+        "speed-polyu.edu.hk",
+        "xn----fr0b94b15d2ue8q7a1o3e.xn--wcvs22d.xn--j6w193g",
+        "xn--fiq80y.hk",
+        "xn--fiq80y.xn--j6w193g",
+        "xn--fiq80y3xbiwr.hk",
+        "xn--fiq80y3xbiwr.xn--j6w193g",
+        "xn--fiq80y3xbiwrs0kiu9d.hk",
+        "xn--fiq80y3xbiwrs0kiu9d.xn--j6w193g",
+        "xn--pssu7ci2j23mp9ny48b.hk",
+        "xn--pssu7ci2j23mp9ny48b.xn--j6w193g",
+        "xn--pssu7ci3q5oge0ai91q.xn--j6w193g",
+        "xn--pssu7cv61af44b.hk",
+        "xn--pssu7cv61af44b.xn--j6w193g",
+        "xn--pssu7cz8nr8ibkx1e8a.xn--j6w193g",
+        "xn--uis44a.xn--j6w193g",
+        "xn--wcvs22d.xn--j6w193g"
+      ]
+    }
+  ]
+}
